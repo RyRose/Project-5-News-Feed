@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -16,7 +16,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Quit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Exit Application" />
+              <MenuItem mnemonicParsing="false" onAction="#endApplication" text="Exit Application" />
             </items>
           </Menu>
         </menus>
@@ -29,19 +29,19 @@
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
-                        <TreeTableView prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #7FFF00;" BorderPane.alignment="CENTER">
+                        <TreeTableView fx:id="table" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #7FFF00;" BorderPane.alignment="CENTER">
                           <columns>
-                            <TreeTableColumn prefWidth="200.0" text="Article Title:" />
-                              <TreeTableColumn prefWidth="150.0" text="Author:" />
-                              <TreeTableColumn prefWidth="100.0" text="Date:" />
-                              <TreeTableColumn prefWidth="350.0" text="Article: (Click to Expand)" />
+                            <TreeTableColumn fx:id="title" prefWidth="200.0" text="Article Title:" />
+                              <TreeTableColumn fx:id="author" prefWidth="150.0" text="Author:" />
+                              <TreeTableColumn fx:id="date" prefWidth="100.0" text="Date:" />
+                              <TreeTableColumn fx:id="text" prefWidth="350.0" text="Article: (Click to Expand)" />
                           </columns>
                         </TreeTableView>
                      </center>
                      <top>
                         <HBox prefHeight="15.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                            <children>
-                              <TextField prefHeight="15.0" prefWidth="700.0" promptText="Place RSS Feed URL Here" />
+                              <TextField fx:id="userInput" prefHeight="15.0" prefWidth="700.0" promptText="Place RSS Feed URL Here" />
                               <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="100.0" text="Retreive Feed" />
                            </children>
                         </HBox>
