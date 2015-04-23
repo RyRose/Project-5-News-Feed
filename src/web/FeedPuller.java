@@ -1,5 +1,5 @@
 package web;
 
-public class FeedPuller {
+class FeedPuller {
 
 }

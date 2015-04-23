@@ -5,7 +5,7 @@ import models.FeedImpl;
 import interfaces.Article;
 import interfaces.Feed;
 
-public class XmlFeed { // TODO: Add Jackson XML annotations to support parsing of the rss feed
+class XmlFeed { // TODO: Add Jackson XML annotations to support parsing of the rss feed
 	
 	public XmlItem[] items;
 	
@@ -36,7 +36,7 @@ public class XmlFeed { // TODO: Add Jackson XML annotations to support parsing o
 		return feed;
 	}
 	
-	public static class XmlItem {
+	static class XmlItem {
 		public String title;
 		public String link;
 		public String description;
