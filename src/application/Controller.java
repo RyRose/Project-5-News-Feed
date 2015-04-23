@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.KeyCode;
 
 public class Controller {
@@ -19,15 +20,14 @@ public class Controller {
 	//TreeTableView Table and Columns
 	@FXML
 	private TreeTableView<Article> table;
-	//Not sure if these declarations are correct. If not, I'll work on it when I find the fix.
 	@FXML
-	private TreeTableColumn<Article, String> title = new TreeTableColumn<>("title");
+	private TreeTableColumn<Article, String> title;
 	@FXML
-	private TreeTableColumn<Article, String> author = new TreeTableColumn<>("author");
+	private TreeTableColumn<Article, String> author;
 	@FXML
-	private TreeTableColumn<Article, String> date = new TreeTableColumn<>("date");
+	private TreeTableColumn<Article, String> date;
 	@FXML
-	private TreeTableColumn<Article, String> text = new TreeTableColumn<>("text");
+	private TreeTableColumn<Article, String> descriptionAndText;
 	
 	//Non FXML items
 	private ObservableList<Article> articles;
@@ -37,8 +37,16 @@ public class Controller {
 	public void initialize() {
 		articles = FXCollections.observableArrayList();	
 		table.setPlaceholder(new Label("Enter the RSS feed of your chosing above in order to view the related articles."));
-		table.getColumns().addAll(title, author, date, text);
-		table.setVisible(true);	
+		
+		//Not sure if these declarations are correct. If not, I'll work on it when I find the fix.
+		title.setCellValueFactory(new TreeItemPropertyValueFactory<Article, String>("title"));
+		author.setCellValueFactory(new TreeItemPropertyValueFactory<Article, String>("author"));
+		date.setCellValueFactory(new TreeItemPropertyValueFactory<Article, String>("date"));
+		descriptionAndText.setCellValueFactory(new TreeItemPropertyValueFactory<Article, String>("description"));
+		
+		
+		table.getColumns().addAll(title, author, date, descriptionAndText);
+		table.setVisible(true);
 		
 		userInput.setOnKeyPressed(event -> {
 			KeyCode key = event.getCode();
@@ -54,6 +62,15 @@ public class Controller {
 		}
 		feedURL = userInput.getText();
 		userInput.clear();
+		System.out.println(feedURL);
+		
+		clear();
+	}
+	
+	@FXML
+	public void clear() {
+		articles.clear();
+		table.setVisible(true);
 	}
 	
 	@FXML

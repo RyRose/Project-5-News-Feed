@@ -34,7 +34,7 @@
                             <TreeTableColumn fx:id="title" prefWidth="200.0" text="Article Title:" />
                               <TreeTableColumn fx:id="author" prefWidth="150.0" text="Author:" />
                               <TreeTableColumn fx:id="date" prefWidth="100.0" text="Date:" />
-                              <TreeTableColumn fx:id="text" prefWidth="350.0" text="Article: (Click to Expand)" />
+                              <TreeTableColumn fx:id="descriptionAndText" prefWidth="350.0" text="Article: (Click to Expand)" />
                           </columns>
                         </TreeTableView>
                      </center>
