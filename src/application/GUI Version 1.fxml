@@ -14,6 +14,11 @@
               <MenuItem mnemonicParsing="false" text="Refresh RSS Feed Manually" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Test Table">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#testRSSAdding" text="Test Adding RSS Feeds to Table" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Quit">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#endApplication" text="Exit Application" />

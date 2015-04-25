@@ -68,6 +68,11 @@ public class Controller {
 	}
 	
 	@FXML
+	public void testRSSAdding() {
+		
+	}
+	
+	@FXML
 	public void clear() {
 		articles.clear();
 		table.setVisible(true);
