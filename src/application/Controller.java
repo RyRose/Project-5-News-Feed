@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -13,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -75,12 +77,35 @@ public class Controller {
 		try {
 			parser.disableArticlePulling();
 			feed = parser.readLink(feedURL);
-			articles.addAll(feed.getArticles());
+			List<Article> returnedArticles = feed.getArticles();
+			for (int i = 0; i < returnedArticles.size(); i ++) {
+				addArticle(returnedArticles.get(i));
+			}
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 		} finally {
 			clear();
 		}
+	}
+	
+	//Separate method for adding to the list of articles.
+	//This is useful when testing adding to the columns.
+	public void addArticle(Article art) {
+		articles.add(art);
+		
+		//Creates separate tree items for all the required information.
+		TreeItem<String> artTitle = new TreeItem<>(art.getTitle());
+		TreeItem<String> artAuthor = new TreeItem<>(art.getAuthor());
+		TreeItem<String> artDate = new TreeItem<>(art.getDate());
+		TreeItem<String> artDesc = new TreeItem<>(art.getDescription());
+		TreeItem<String> artText = new TreeItem<>(art.getText());
+		
+		//Sets the text as the child of the description.
+		//This will incorporate the idea of the actual article being a dropdown item.
+		artDesc.getChildren().add(artText);
+		artDesc.setExpanded(false);
+		
+		
 	}
 	
 	@FXML
