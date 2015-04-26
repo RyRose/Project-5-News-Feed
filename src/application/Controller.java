@@ -104,8 +104,6 @@ public class Controller {
 		//This will incorporate the idea of the actual article being a dropdown item.
 		artDesc.getChildren().add(artText);
 		artDesc.setExpanded(false);
-		
-		
 	}
 	
 	@FXML

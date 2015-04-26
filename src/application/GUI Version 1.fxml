@@ -36,10 +36,10 @@
                      <center>
                         <TreeTableView fx:id="table" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #7FFF00;" BorderPane.alignment="CENTER">
                           <columns>
-                            <TreeTableColumn fx:id="title" prefWidth="200.0" text="Article Title:" />
-                              <TreeTableColumn fx:id="author" prefWidth="150.0" text="Author:" />
-                              <TreeTableColumn fx:id="date" prefWidth="100.0" text="Date:" />
-                              <TreeTableColumn fx:id="descriptionAndText" prefWidth="350.0" text="Article: (Click to Expand)" />
+                            <TreeTableColumn fx:id="title" editable="false" prefWidth="200.0" sortable="false" text="Article Title:" />
+                              <TreeTableColumn fx:id="author" editable="false" prefWidth="150.0" sortable="false" text="Author:" />
+                              <TreeTableColumn fx:id="date" editable="false" prefWidth="100.0" sortable="false" text="Date:" />
+                              <TreeTableColumn fx:id="descriptionAndText" editable="false" prefWidth="350.0" sortable="false" text="Article: (Click to Expand)" />
                           </columns>
                         </TreeTableView>
                      </center>
