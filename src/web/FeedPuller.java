@@ -1,5 +1,0 @@
-package web;
-
-class FeedPuller {
-
-}

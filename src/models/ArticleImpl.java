@@ -2,7 +2,7 @@ package models;
 
 import interfaces.Article;
 
-public class ArticleImpl implements Article{
+public class ArticleImpl implements Article {
 	
 	private String title;
 	private String link;
@@ -18,6 +18,15 @@ public class ArticleImpl implements Article{
 		date = "";
 		text = "";
 		description = "";
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("\n{").append(" title: ").append(title).append(", description: ").append(description);
+		builder.append(", date: ").append(date).append(", link: ").append(link).append(", text: ").append(text);
+		builder.append(", author: ").append(author).append("}");
+		return builder.toString();
 	}
 	
 	// Getters and Setters

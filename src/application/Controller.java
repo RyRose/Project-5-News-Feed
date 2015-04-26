@@ -1,6 +1,12 @@
 package application;
 
+import java.io.IOException;
+
+import javax.xml.stream.XMLStreamException;
+
+import web.XmlParser;
 import interfaces.Article;
+import interfaces.Feed;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,7 +42,7 @@ public class Controller {
 	@FXML
 	public void initialize() {
 		articles = FXCollections.observableArrayList();	
-		table.setPlaceholder(new Label("Enter the RSS feed of your chosing above in order to view the related articles."));
+		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles."));
 		
 		//Not sure if these declarations are correct. If not, I'll work on it when I find the fix.
 		title.setCellValueFactory(new TreeItemPropertyValueFactory<Article, String>("title"));
@@ -47,7 +53,7 @@ public class Controller {
 		
 		table.getColumns().addAll(title, author, date, descriptionAndText);
 		table.setVisible(true);
-		
+
 		userInput.setOnKeyPressed(event -> {
 			KeyCode key = event.getCode();
 			if (key == KeyCode.ENTER) {add();}
@@ -62,9 +68,19 @@ public class Controller {
 		}
 		feedURL = userInput.getText();
 		userInput.clear();
-		System.out.println(feedURL);
 		
-		clear();
+		XmlParser parser = new XmlParser();
+		
+		Feed feed;
+		try {
+			parser.disableArticlePulling();
+			feed = parser.readLink(feedURL);
+			articles.addAll(feed.getArticles());
+		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
+			userInput.setText(e.toString());
+		} finally {
+			clear();
+		}
 	}
 	
 	@FXML

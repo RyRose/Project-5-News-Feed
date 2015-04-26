@@ -31,6 +31,15 @@ public class FeedImpl implements Feed {
 		copyright = "";
 		articles = new ArrayList<Article>();
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("{ rssLink: ").append(rssLink).append(", title: ").append(title).append(", description: ");
+		builder.append(description).append(", date: ").append(date);
+		builder.append(", language: ").append(language).append(", copyright: ").append(copyright).append(", articles ").append(articles).append("}");
+		return builder.toString();
+	}
 		
 	@Override
 	public void add( Article article ) { articles.add(article); }
