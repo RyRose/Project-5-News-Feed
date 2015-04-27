@@ -18,7 +18,6 @@ public class XmlTest {
 	public void testXmlItemParsing() throws XMLStreamException, IOException {
 		URL url = getClass().getResource("test.xml");
 		XmlParser parser = new XmlParser();
-		parser.disableArticlePulling();
 		System.out.println(parser.readLink(url));
 	}
 

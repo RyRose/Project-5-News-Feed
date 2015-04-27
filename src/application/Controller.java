@@ -75,7 +75,6 @@ public class Controller {
 		
 		Feed feed;
 		try {
-			parser.disableArticlePulling();
 			feed = parser.readLink(feedURL);
 			List<Article> returnedArticles = feed.getArticles();
 			for (int i = 0; i < returnedArticles.size(); i ++) {

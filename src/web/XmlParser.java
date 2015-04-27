@@ -10,31 +10,12 @@ import java.net.URL;
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
 
-import org.xml.sax.InputSource;
-
-import de.l3s.boilerpipe.BoilerpipeExtractor;
-import de.l3s.boilerpipe.BoilerpipeProcessingException;
-import de.l3s.boilerpipe.extractors.CommonExtractors;
 import models.ArticleImpl;
 import models.FeedImpl;
 
 
 public class XmlParser {
 	
-	private boolean isPullingArticles; // For testing's sake so I don't have to wait for download
-	
-	public XmlParser() {
-		isPullingArticles = true;
-	}
-	
-	public void disableArticlePulling() {
-		isPullingArticles = false;
-	}
-	
-	public void enableArticlePulling() {
-		isPullingArticles = true;
-	}
-
 	public Feed readLink( String xmlLink ) throws XMLStreamException, IOException {
 		return readLink( new URL(xmlLink) );
 	}
@@ -107,39 +88,18 @@ public class XmlParser {
 					article.setAuthor( extractData(reader) );
 					break;
 				}
-			}
-			
-			if (event.isEndElement()) {
+			} else if (event.isEndElement()) {
 				EndElement endElement = event.asEndElement();
 								
 				if (endElement.getName().getLocalPart() == "item") {
-					
-					if (isPullingArticles)
-						article.setText( getArticleText(article.getLink()) );
-					
+					new ArticlePuller(article).start();
 					return article;
 				} 
 			} 
 		}
 		
 		throw new XMLStreamException();
-	}
-	
-	private String getArticleText( String link ) throws IOException { // TODO: Thread it or shred it. It is slowing down everything.
-		URL url = new URL(link);
-		InputSource source = new InputSource();
-		
-		source.setEncoding("UTF-8");
-		source.setByteStream(url.openStream());
-		
-		BoilerpipeExtractor extractor = CommonExtractors.DEFAULT_EXTRACTOR;
-		try {
-			return extractor.getText(source);
-		} catch (BoilerpipeProcessingException e) {
-			return "";
-		}
-	}
-	
+	}	
 
 	private String extractData( XMLEventReader reader ) throws XMLStreamException {
 		XMLEvent event = reader.nextEvent();

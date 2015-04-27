@@ -21,7 +21,6 @@ public interface Feed {
 	public String getDescription(); // description
 	public void setDescription(String description);
 
-	// Possibly empty
 	public String getDate(); // pubDate- the last time an article has been published
 	public void setDate(String date);
 	
