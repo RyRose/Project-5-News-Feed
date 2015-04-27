@@ -34,7 +34,7 @@ public class Controller {
 	@FXML
 	private TableColumn<Article, String> date;
 	@FXML
-	private TableColumn<Article, String> descriptionAndText;
+	private TableColumn<Article, String> text;
 	
 	//Non FXML items
 	private ObservableList<Article> articles;
@@ -49,7 +49,7 @@ public class Controller {
 		title.setCellValueFactory(new PropertyValueFactory<Article, String>("title"));
 		author.setCellValueFactory(new PropertyValueFactory<Article, String>("author"));
 		date.setCellValueFactory(new PropertyValueFactory<Article, String>("date"));
-		descriptionAndText.setCellValueFactory(new PropertyValueFactory<Article, String>("article_text"));
+		text.setCellValueFactory(new PropertyValueFactory<Article, String>("article_text"));
 		
 		table.setItems(articles);
 
