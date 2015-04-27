@@ -69,6 +69,7 @@ public class Controller {
 	
 	@FXML
 	public void add() {
+		clear();
 		if (userInput.getText().length() == 0 || userInput.getText() == null) {
 			userInput.setPromptText("Please enter a URL before pressing the button or enter key.");
 			return;
