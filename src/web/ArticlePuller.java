@@ -27,7 +27,7 @@ public class ArticlePuller extends Thread {
 		}
 	}
 	
-	private String getArticleText( String link ) throws IOException { // TODO: Thread it or shred it. It is slowing down everything.
+	private String getArticleText( String link ) throws IOException {
 		URL url = new URL(link);
 		InputSource source = new InputSource();
 		

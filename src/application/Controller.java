@@ -107,7 +107,6 @@ public class Controller {
 	
 	@FXML
 	public void testRSSAdding() {
-		
 	}
 	
 	@FXML
