@@ -3,6 +3,9 @@ package web;
 import java.io.IOException;
 import java.net.URL;
 
+import javafx.application.Platform;
+import javafx.scene.control.TableColumn;
+
 import org.xml.sax.InputSource;
 
 import de.l3s.boilerpipe.BoilerpipeExtractor;
@@ -13,15 +16,24 @@ import interfaces.Article;
 public class ArticlePuller extends Thread {
 
 	Article article;
+	TableColumn<Article, String> column;
 	
-	public ArticlePuller( Article article ) {
+	public ArticlePuller( Article article, TableColumn<Article, String> column ) {
 		this.article = article;
+		this.column = column;
 	}
 
 	@Override
 	public void run() {
 		try {
 			article.setText( getArticleText(article.getLink()) );
+			
+			Platform.runLater( () -> {
+				if (column != null) {
+					column.setVisible(false); // Gross, hacky way to refresh the tableView's columns when there is new text.
+					column.setVisible(true);
+				}
+			} );
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
