@@ -34,22 +34,23 @@ public class Controller {
 	@FXML
 	private TableColumn<Article, String> date;
 	@FXML
-	private TableColumn<Article, String> text;
+	private TableColumn<Article, String> article;
 	
 	//Non FXML items
 	private ObservableList<Article> articles;
 	private String feedURL;
+	private XmlParser parser = new XmlParser();
 	
 	@FXML
 	public void initialize() {
 		articles = FXCollections.observableArrayList();	
-		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles."));
+		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles.\nPlease take note that pulling the article text may take a few."));
 		
-		//Not sure if these declarations are correct. If not, I'll work on it when I find the fix.
+		//This is based off of the Article interface. If that is changed, please adjust this.
 		title.setCellValueFactory(new PropertyValueFactory<Article, String>("title"));
-		author.setCellValueFactory(new PropertyValueFactory<Article, String>("author"));
 		date.setCellValueFactory(new PropertyValueFactory<Article, String>("date"));
-		text.setCellValueFactory(new PropertyValueFactory<Article, String>("article_text"));
+		article.setCellValueFactory(new PropertyValueFactory<Article, String>("text"));
+		author.setCellValueFactory(new PropertyValueFactory<Article, String>("author"));
 		
 		table.setItems(articles);
 
@@ -70,8 +71,6 @@ public class Controller {
 		feedURL = userInput.getText();
 		userInput.clear();
 		
-		XmlParser parser = new XmlParser();
-		
 		Feed feed;
 		List<Article> returnedArticles;
 		
@@ -79,33 +78,53 @@ public class Controller {
 			feed = parser.readLink(feedURL);
 			returnedArticles = feed.getArticles();
 			for (Article art : returnedArticles) {
-				System.out.println(art);
 				addArticle(art);
 			}
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
-		} finally {
-			clear();
+		}
+	}
+
+	//This can be used for testing and refreshing the feed.
+	public void addRefreshed(String testFeed) {
+		Feed feed;
+		List<Article> returnedArticles;
+		
+		try {
+			feed = parser.readLink(testFeed);
+			returnedArticles = feed.getArticles();
+			for (Article art : returnedArticles) {
+				addArticle(art);
+			}
+		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
+			userInput.setText(e.toString());
+			table.setPlaceholder(new Label("Looks like something went wrong."));
 		}
 	}
 	
 	//Separate method for adding to the list of articles.
 	//This is useful when testing adding to the columns.
-	public void addArticle(Article art) {
+	private void addArticle(Article art) {
 		articles.add(art);
 	}
 	
+	//Test method using Hendrix news feed at https://www.hendrix.edu/news/RssFeed.ashx?fol=235.
 	@FXML
-	public void testRSSAdding() {
+	private void testRSSAdding() {
+		clear();
+		String hendrixFeed = "https://www.hendrix.edu/news/RssFeed.ashx?fol=235";
+		addRefreshed(hendrixFeed);
 	}
 	
+	//Clears table. Used every time a user makes a request.
 	@FXML
-	public void clear() {
+	private void clear() {
 		articles.clear();
 		table.setVisible(true);
 	}
 	
+	//Quits application.
 	@FXML
 	public void endApplication(){
 		Platform.exit();

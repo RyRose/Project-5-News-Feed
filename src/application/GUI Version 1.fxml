@@ -16,7 +16,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Test Table">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#testRSSAdding" text="Test Adding RSS Feeds to Table" />
+                <MenuItem mnemonicParsing="false" onAction="#testRSSAdding" text="Test Using Hendrix News Feed" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Quit">
@@ -47,7 +47,7 @@
                             <TableColumn fx:id="title" prefWidth="200.0" sortable="false" text="Title:" />
                             <TableColumn fx:id="author" prefWidth="150.0" sortable="false" text="Author:" />
                               <TableColumn fx:id="date" prefWidth="100.0" sortable="false" text="Date:" />
-                              <TableColumn fx:id="descriptionAndText" prefWidth="350.0" sortable="false" text="Text:" />
+                              <TableColumn fx:id="article" prefWidth="350.0" sortable="false" text="Text:" />
                           </columns>
                         </TableView>
                      </center>
