@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 
 import org.xml.sax.InputSource;
@@ -17,10 +18,12 @@ public class ArticlePuller extends Thread {
 
 	Article article;
 	TableColumn<Article, String> column;
+	ObservableList<Article> articles;
 	
-	public ArticlePuller( Article article, TableColumn<Article, String> column ) {
+	public ArticlePuller( Article article, TableColumn<Article, String> column, ObservableList<Article> articles ) {
 		this.article = article;
 		this.column = column;
+		this.articles = articles;
 	}
 
 	@Override
@@ -30,6 +33,7 @@ public class ArticlePuller extends Thread {
 			
 			Platform.runLater( () -> {
 				if (column != null) {
+					articles.add( article );
 					column.setVisible(false); // Gross, hacky way to refresh the tableView's columns when there is new text.
 					column.setVisible(true);
 				}

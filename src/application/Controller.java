@@ -35,9 +35,7 @@ public class Controller {
 	private TableColumn<Article, String> date;
 	@FXML
 	private TableColumn<Article, String> article;
-	
-	private TableColumn<Article, String> text;
-		
+			
 	//Non FXML items
 	private ObservableList<Article> articles;
 	private String feedURL;
@@ -45,8 +43,8 @@ public class Controller {
 	
 	@FXML
 	public void initialize() {
-		manager = new FeedManager(article);
-		articles = FXCollections.observableArrayList();	
+		articles = FXCollections.observableArrayList();
+		manager = new FeedManager(article, articles);
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles.\nPlease take note that pulling the article text may take a few."));
 		
 		//This is based off of the Article interface. If that is changed, please adjust this.
@@ -77,18 +75,15 @@ public class Controller {
 		feedURL = userInput.getText();
 		userInput.clear();
 		
-
-		XmlParser parser = new XmlParser(text);
-
 		Feed feed;
 		List<Article> returnedArticles;
 		
 		try {
-			feed = parser.readLink(feedURL);
-			returnedArticles = feed.getArticles();
-			for (Article art : returnedArticles) {
-				addArticle(art);
-			}
+			feed = manager.getFeed(feedURL);
+			// returnedArticles = feed.getArticles();
+			// for (Article art : returnedArticles) {
+				// addArticle(art);
+			// }
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));

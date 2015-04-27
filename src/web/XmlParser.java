@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 
 import javax.xml.stream.*;
@@ -19,13 +20,15 @@ import models.FeedImpl;
 public class XmlParser {
 	
 	TableColumn<Article, String> column;
+	ObservableList<Article> articles;
 	
 	public XmlParser() {
 		column = null;
 	}
 	
-	public XmlParser(TableColumn<Article, String> tableColumn) {
+	public XmlParser(TableColumn<Article, String> tableColumn, ObservableList<Article> articles) {
 		column = tableColumn;
+		this.articles = articles;
 	}
 
 	public Feed readLink( String xmlLink ) throws XMLStreamException, IOException {
@@ -104,7 +107,7 @@ public class XmlParser {
 				EndElement endElement = event.asEndElement();
 								
 				if (endElement.getName().getLocalPart() == "item") {
-					new ArticlePuller(article, column).start();
+					new ArticlePuller(article, column, articles).start();
 					return article;
 				} 
 			} 
