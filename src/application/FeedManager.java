@@ -28,21 +28,28 @@ public class FeedManager {
 		}
 	}
 
-	public Feed getFeed(String rss_link) throws XMLStreamException, IOException {
-		Feed feed;
-		// TODO: Check if a feed in database. Then, return it along with its articles if it does.
+	public Feed getFeed(String rss_link) throws XMLStreamException, IOException, SQLException {
+		Feed feed = (database.isFeedInDB(rss_link)) ? database.getFeed(rss_link) : parser.readLink(rss_link);
+		// If the feed is in the database, retrieve it from there.
+		if (database.isFeedInDB(rss_link)){
+			feed = database.getFeed(rss_link);
+		}
 		
-		// Else, it pulls it from the web. 
-		feed = parser.readLink(rss_link);
-		
-		// TODO: then it adds the feed to the database along with its articles. Note, need to delay adding to database because
-		// it takes a bit to download the articles.
-		
+		// Else, pull it from the web and add it to the database.
+		else{
+			feed = parser.readLink(rss_link);
+			// TODO: delay for the parser to download?
+			database.addFeed(rss_link, feed.getTitle());
+			
+			for (Article art: feed.getArticles()){
+				database.addArticle(rss_link, art.getAuthor(), art.getDate(), art.getTitle(), art.getText(), art.getDescription());
+			}
+		}
 		return feed;
 	}
 	
-	public List<Feed> getStoredFeeds() { // TODO: returns all of the feeds in the database so they can be displayed when the application is loaded
-		return null;
+	public List<Feed> getStoredFeeds() throws SQLException {
+		return database.getAllFeeds();
 	}
 	
 }

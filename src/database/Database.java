@@ -38,7 +38,7 @@ public class Database {
 	}
 	
 	public void addFeed(String rssLink, String feedName) throws SQLException {
-		if (!isFeedAdded(feedName)){
+		if (!isFeedInDB(feedName)){
 			stat.executeUpdate("INSERT INTO FeedLinkTable VALUES ('" + rssLink + "', '" + feedName + "')");
 			feeds.add(feedName);
 		}
@@ -84,7 +84,24 @@ public class Database {
 		return feed;
 	}
 	
-	boolean isFeedAdded(String feedName){
+	public boolean isFeedInDB(String feedName){
 		return feeds.contains(feedName);
+	}
+	
+	ArrayList<String> getAllRSSLinks() throws SQLException{
+		ArrayList<String> links = new ArrayList<String>();
+		ResultSet results = stat.executeQuery("SELECT * FROM FeedLinkTable");
+		while (results.next()){
+			links.add(results.getString("RSSLink"));
+		}
+		return links;
+	}
+	
+	public ArrayList<Feed> getAllFeeds() throws SQLException{
+		ArrayList<Feed> feeds = new ArrayList<Feed>();
+		for (String rssLink : getAllRSSLinks()){
+			feeds.add(getFeed(rssLink));
+		}
+		return feeds;
 	}
 }
