@@ -41,10 +41,11 @@ public class Controller {
 	//Non FXML items
 	private ObservableList<Article> articles;
 	private String feedURL;
-	private XmlParser parser = new XmlParser();
+	private FeedManager manager;
 	
 	@FXML
 	public void initialize() {
+		manager = new FeedManager(article);
 		articles = FXCollections.observableArrayList();	
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles.\nPlease take note that pulling the article text may take a few."));
 		
@@ -100,7 +101,7 @@ public class Controller {
 		List<Article> returnedArticles;
 		
 		try {
-			feed = parser.readLink(testFeed);
+			feed = manager.getFeed(testFeed);
 			returnedArticles = feed.getArticles();
 			for (Article art : returnedArticles) {
 				addArticle(art);
