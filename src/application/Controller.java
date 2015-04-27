@@ -13,11 +13,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 
 public class Controller {
@@ -27,15 +26,15 @@ public class Controller {
 	
 	//TreeTableView Table and Columns
 	@FXML
-	private TreeTableView<Article> table;
+	private TableView<Article> table;
 	@FXML
-	private TreeTableColumn<Article, String> title;
+	private TableColumn<Article, String> title;
 	@FXML
-	private TreeTableColumn<Article, String> author;
+	private TableColumn<Article, String> author;
 	@FXML
-	private TreeTableColumn<Article, String> date;
+	private TableColumn<Article, String> date;
 	@FXML
-	private TreeTableColumn<Article, String> descriptionAndText;
+	private TableColumn<Article, String> descriptionAndText;
 	
 	//Non FXML items
 	private ObservableList<Article> articles;
@@ -47,15 +46,14 @@ public class Controller {
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles."));
 		
 		//Not sure if these declarations are correct. If not, I'll work on it when I find the fix.
-		title.setCellValueFactory(new TreeItemPropertyValueFactory<Article, String>("title"));
-		author.setCellValueFactory(new TreeItemPropertyValueFactory<Article, String>("author"));
-		date.setCellValueFactory(new TreeItemPropertyValueFactory<Article, String>("date"));
-		descriptionAndText.setCellValueFactory(new TreeItemPropertyValueFactory<Article, String>("description"));
+		title.setCellValueFactory(new PropertyValueFactory<Article, String>("title"));
+		author.setCellValueFactory(new PropertyValueFactory<Article, String>("author"));
+		date.setCellValueFactory(new PropertyValueFactory<Article, String>("date"));
+		descriptionAndText.setCellValueFactory(new PropertyValueFactory<Article, String>("article_text"));
 		
-		
-		table.getColumns().addAll(title, author, date, descriptionAndText);
-		table.setVisible(true);
+		table.setItems(articles);
 
+		//Keylistener for enter key.
 		userInput.setOnKeyPressed(event -> {
 			KeyCode key = event.getCode();
 			if (key == KeyCode.ENTER) {add();}
@@ -68,20 +66,25 @@ public class Controller {
 			userInput.setPromptText("Please enter a URL before pressing the button or enter key.");
 			return;
 		}
+		
 		feedURL = userInput.getText();
 		userInput.clear();
 		
 		XmlParser parser = new XmlParser();
 		
 		Feed feed;
+		List<Article> returnedArticles;
+		
 		try {
 			feed = parser.readLink(feedURL);
-			List<Article> returnedArticles = feed.getArticles();
-			for (int i = 0; i < returnedArticles.size(); i ++) {
-				addArticle(returnedArticles.get(i));
+			returnedArticles = feed.getArticles();
+			for (Article art : returnedArticles) {
+				System.out.println(art);
+				addArticle(art);
 			}
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
+			table.setPlaceholder(new Label("Looks like something went wrong."));
 		} finally {
 			clear();
 		}
@@ -91,18 +94,6 @@ public class Controller {
 	//This is useful when testing adding to the columns.
 	public void addArticle(Article art) {
 		articles.add(art);
-		
-		//Creates separate tree items for all the required information.
-		TreeItem<String> artTitle = new TreeItem<>(art.getTitle());
-		TreeItem<String> artAuthor = new TreeItem<>(art.getAuthor());
-		TreeItem<String> artDate = new TreeItem<>(art.getDate());
-		TreeItem<String> artDesc = new TreeItem<>(art.getDescription());
-		TreeItem<String> artText = new TreeItem<>(art.getText());
-		
-		//Sets the text as the child of the description.
-		//This will incorporate the idea of the actual article being a dropdown item.
-		artDesc.getChildren().add(artText);
-		artDesc.setExpanded(false);
 	}
 	
 	@FXML
