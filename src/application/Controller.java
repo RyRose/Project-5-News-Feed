@@ -115,7 +115,23 @@ public class Controller {
 	//Separate method for adding to the list of articles.
 	//This is useful when testing adding to the columns.
 	private void addArticle(Article art) {
+		String tempString = wrapString(art.getText());
+		art.setText(tempString);
 		articles.add(art);
+	}
+	
+	//Wraps the text of the article.
+	//This doesn't work yet.
+	private String wrapString(String newText) {
+		StringBuilder sb = new StringBuilder(newText);
+
+		int i = 0;
+		while (i + 500 < sb.length() && (i = sb.lastIndexOf(" ", i + 500)) != -1) {
+		    sb.replace(i, i + 1, "\n");
+		}
+		
+		System.out.println(sb.toString());
+		return sb.toString();
 	}
 	
 	//Test method using Hendrix news feed at https://www.hendrix.edu/news/RssFeed.ashx?fol=235.
