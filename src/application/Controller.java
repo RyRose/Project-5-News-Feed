@@ -34,13 +34,10 @@ public class Controller {
 	@FXML
 	private TableColumn<Article, String> date;
 	@FXML
-<<<<<<< HEAD
 	private TableColumn<Article, String> article;
 	
-=======
 	private TableColumn<Article, String> text;
 		
->>>>>>> origin/master
 	//Non FXML items
 	private ObservableList<Article> articles;
 	private String feedURL;
@@ -49,15 +46,12 @@ public class Controller {
 	@FXML
 	public void initialize() {
 		articles = FXCollections.observableArrayList();	
-<<<<<<< HEAD
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles.\nPlease take note that pulling the article text may take a few."));
 		
 		//This is based off of the Article interface. If that is changed, please adjust this.
-=======
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles."));
 			
 		//Not sure if these declarations are correct. If not, I'll work on it when I find the fix.
->>>>>>> origin/master
 		title.setCellValueFactory(new PropertyValueFactory<Article, String>("title"));
 		date.setCellValueFactory(new PropertyValueFactory<Article, String>("date"));
 		article.setCellValueFactory(new PropertyValueFactory<Article, String>("text"));
@@ -82,11 +76,9 @@ public class Controller {
 		feedURL = userInput.getText();
 		userInput.clear();
 		
-<<<<<<< HEAD
-=======
+
 		XmlParser parser = new XmlParser(text);
-		
->>>>>>> origin/master
+
 		Feed feed;
 		List<Article> returnedArticles;
 		
@@ -99,7 +91,6 @@ public class Controller {
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
-<<<<<<< HEAD
 		}
 	}
 
@@ -117,8 +108,6 @@ public class Controller {
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
-=======
->>>>>>> origin/master
 		}
 		
 	}
