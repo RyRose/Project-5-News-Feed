@@ -35,7 +35,7 @@ public class Controller {
 	private TableColumn<Article, String> date;
 	@FXML
 	private TableColumn<Article, String> text;
-	
+		
 	//Non FXML items
 	private ObservableList<Article> articles;
 	private String feedURL;
@@ -70,7 +70,7 @@ public class Controller {
 		feedURL = userInput.getText();
 		userInput.clear();
 		
-		XmlParser parser = new XmlParser(table.getColumns().get(3));
+		XmlParser parser = new XmlParser(text);
 		
 		Feed feed;
 		List<Article> returnedArticles;

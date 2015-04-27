@@ -16,9 +16,9 @@ import interfaces.Article;
 public class ArticlePuller extends Thread {
 
 	Article article;
-	TableColumn<Article, ?> column;
+	TableColumn<Article, String> column;
 	
-	public ArticlePuller( Article article, TableColumn<Article, ?> column ) {
+	public ArticlePuller( Article article, TableColumn<Article, String> column ) {
 		this.article = article;
 		this.column = column;
 	}

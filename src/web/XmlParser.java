@@ -18,11 +18,13 @@ import models.FeedImpl;
 
 public class XmlParser {
 	
-	TableColumn<Article, ?> column;
+	TableColumn<Article, String> column;
 	
-	public XmlParser() {}
+	public XmlParser() {
+		column = null;
+	}
 	
-	public XmlParser(TableColumn<Article, ?> tableColumn) {
+	public XmlParser(TableColumn<Article, String> tableColumn) {
 		column = tableColumn;
 	}
 
