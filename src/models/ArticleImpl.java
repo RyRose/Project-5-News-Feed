@@ -64,8 +64,8 @@ public class ArticleImpl implements Article {
 	@Override public String getDate() { return date; }
 	@Override public void setDate(String date) { this.date = date; }
 
-	@Override public String getText() { return text;}
-	@Override public void setText(String article_text) { this.text = article_text; }
+	@Override public synchronized String getText() { return text;}
+	@Override public synchronized void setText(String article_text) { this.text = article_text; }
 
 	@Override public String getDescription() { return description; }
 	@Override public void setDescription(String description) { this.description = description; }

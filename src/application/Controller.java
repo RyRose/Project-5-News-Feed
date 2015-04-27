@@ -44,7 +44,7 @@ public class Controller {
 	public void initialize() {
 		articles = FXCollections.observableArrayList();	
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles."));
-		
+			
 		//Not sure if these declarations are correct. If not, I'll work on it when I find the fix.
 		title.setCellValueFactory(new PropertyValueFactory<Article, String>("title"));
 		author.setCellValueFactory(new PropertyValueFactory<Article, String>("author"));
@@ -70,7 +70,7 @@ public class Controller {
 		feedURL = userInput.getText();
 		userInput.clear();
 		
-		XmlParser parser = new XmlParser();
+		XmlParser parser = new XmlParser(table.getColumns().get(3));
 		
 		Feed feed;
 		List<Article> returnedArticles;
@@ -85,9 +85,8 @@ public class Controller {
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
-		} finally {
-			clear();
 		}
+		
 	}
 	
 	//Separate method for adding to the list of articles.
