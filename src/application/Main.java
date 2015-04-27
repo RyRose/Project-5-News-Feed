@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
 
@@ -19,6 +20,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			//Setting window title
 			primaryStage.setTitle("RSS Reader");
+			primaryStage.getIcons().add(new Image( Main.class.getResourceAsStream( "project5logo.png" ))); 
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
