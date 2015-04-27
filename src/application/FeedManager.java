@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
+import interfaces.Article;
 import interfaces.ArticleView;
 import interfaces.Feed;
 import database.Database;

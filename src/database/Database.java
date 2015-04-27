@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import models.ArticleImpl;
 import models.FeedImpl;
 
-public class Database {
+public class Database { // TODO: Make all statements PreparedStatements to prevent SQL injection from malicious RSS feeds/ RSS links
 	
 	Statement stat;
 	ArrayList<String> feeds = new ArrayList<String>();

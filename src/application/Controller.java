@@ -1,9 +1,11 @@
 package application;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
+
 import interfaces.Article;
 import interfaces.ArticleView;
 import interfaces.Feed;
@@ -81,6 +83,8 @@ public class Controller {
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
+		} catch (SQLException e) {
+			// e.printStackTrace();
 		}
 	}
 
@@ -93,16 +97,10 @@ public class Controller {
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
+		} catch (SQLException e) {
+			// e.printStackTrace();
 		}
 		
-	}
-	
-	//Separate method for adding to the list of articles.
-	//This is useful when testing adding to the columns.
-	private void addArticle(Article art) {
-		ArticleView temp = new ArticleView();
-		temp = temp.convert(art);
-		articles.add(temp);
 	}
 	
 	//Test method using Hendrix news feed at https://www.hendrix.edu/news/RssFeed.ashx?fol=235.
