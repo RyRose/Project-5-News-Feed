@@ -94,7 +94,7 @@ public class XmlParser {
 				case "link":
 					article.setLink( extractData(reader) );
 					break;
-				case "title:":
+				case "title":
 					article.setTitle( extractData(reader) );
 					break;
 				case "description":
