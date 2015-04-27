@@ -33,6 +33,30 @@ public class FeedImpl implements Feed {
 	}
 	
 	@Override
+	public int hashCode() {
+		return articles.hashCode() + rssLink.hashCode() + title.hashCode() + description.hashCode() + siteLink.hashCode() + date.hashCode() 
+				+ language.hashCode() + copyright.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof FeedImpl) {
+			FeedImpl other = (FeedImpl) obj;
+			
+			return  other.articles.equals(articles) &&
+					other.rssLink.equals(rssLink) &&
+					other.title.equals(title) &&
+					other.description.equals(description) &&
+					other.siteLink.equals(siteLink) &&
+					other.date.equals(date) &&
+					other.language.equals(language) &&
+					other.copyright.equals(copyright);
+		}
+		
+		return false;
+	}
+	
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("{ rssLink: ").append(rssLink).append(", title: ").append(title).append(", description: ");

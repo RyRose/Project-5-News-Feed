@@ -1,11 +1,14 @@
 package test;
 
 import static org.junit.Assert.*;
+import interfaces.Feed;
 
 import java.io.IOException;
 import java.net.URL;
 
 import javax.xml.stream.XMLStreamException;
+
+import models.FeedImpl;
 
 import org.junit.Test;
 
@@ -13,12 +16,12 @@ import web.XmlParser;
 
 public class XmlTest {
 	
+	URL url = getClass().getResource("test.xml");
 	
 	@Test
 	public void testXmlItemParsing() throws XMLStreamException, IOException {
-		URL url = getClass().getResource("test.xml");
 		XmlParser parser = new XmlParser();
-		System.out.println(parser.readLink(url));
+		Feed feed = parser.readLink(url);
 	}
 
 }

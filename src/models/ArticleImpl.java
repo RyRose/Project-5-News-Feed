@@ -21,6 +21,27 @@ public class ArticleImpl implements Article {
 	}
 	
 	@Override
+	public int hashCode() {
+		return title.hashCode() + link.hashCode() + author.hashCode() + date.hashCode() + text.hashCode() + description.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ArticleImpl) {
+			ArticleImpl other = (ArticleImpl) obj;
+			
+			return  other.title.equals(title) &&
+					other.link.equals(link) &&
+					other.author.equals(author) &&
+					other.date.equals(date) &&
+					other.text.equals(text) &&
+					other.description.equals(description);
+		}
+		
+		return false;
+	}
+	
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n{").append(" title: ").append(title).append(", description: ").append(description);
