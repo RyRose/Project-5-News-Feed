@@ -7,6 +7,7 @@ import javax.xml.stream.XMLStreamException;
 
 import web.XmlParser;
 import interfaces.Article;
+import interfaces.ArticleView;
 import interfaces.Feed;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.text.Text;
 
 public class Controller {
 	//FXML Objects Not Involved in TreeTableView
@@ -26,20 +28,19 @@ public class Controller {
 	
 	//TreeTableView Table and Columns
 	@FXML
-	private TableView<Article> table;
+	private TableView<ArticleView> table;
 	@FXML
-	private TableColumn<Article, String> title;
+	private TableColumn<ArticleView, Text> title;
 	@FXML
-	private TableColumn<Article, String> author;
+	private TableColumn<ArticleView, Text> author;
 	@FXML
-	private TableColumn<Article, String> date;
+	private TableColumn<ArticleView, Text> date;
 	@FXML
-	private TableColumn<Article, String> article;
+	private TableColumn<ArticleView, Text> article;
 	
-	private TableColumn<Article, String> text;
 		
 	//Non FXML items
-	private ObservableList<Article> articles;
+	private ObservableList<ArticleView> articles;
 	private String feedURL;
 	private FeedManager manager;
 	
@@ -53,10 +54,10 @@ public class Controller {
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles."));
 			
 		//Not sure if these declarations are correct. If not, I'll work on it when I find the fix.
-		title.setCellValueFactory(new PropertyValueFactory<Article, String>("title"));
-		date.setCellValueFactory(new PropertyValueFactory<Article, String>("date"));
-		article.setCellValueFactory(new PropertyValueFactory<Article, String>("text"));
-		author.setCellValueFactory(new PropertyValueFactory<Article, String>("author"));
+		title.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("title"));
+		date.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("date"));
+		article.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("text"));
+		author.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("author"));
 		
 		table.setItems(articles);
 
@@ -76,9 +77,6 @@ public class Controller {
 		
 		feedURL = userInput.getText();
 		userInput.clear();
-		
-
-		XmlParser parser = new XmlParser(text);
 
 		Feed feed;
 		List<Article> returnedArticles;
@@ -116,23 +114,9 @@ public class Controller {
 	//Separate method for adding to the list of articles.
 	//This is useful when testing adding to the columns.
 	private void addArticle(Article art) {
-		String tempString = wrapString(art.getText());
-		art.setText(tempString);
-		articles.add(art);
-	}
-	
-	//Wraps the text of the article.
-	//This doesn't work yet.
-	private String wrapString(String newText) {
-		StringBuilder sb = new StringBuilder(newText);
-
-		int i = 0;
-		while (i + 500 < sb.length() && (i = sb.lastIndexOf(" ", i + 500)) != -1) {
-		    sb.replace(i, i + 1, "\n");
-		}
-		
-		System.out.println(sb.toString());
-		return sb.toString();
+		ArticleView temp = new ArticleView();
+		temp = temp.convert(art);
+		articles.add(temp);
 	}
 	
 	//Test method using Hendrix news feed at https://www.hendrix.edu/news/RssFeed.ashx?fol=235.
