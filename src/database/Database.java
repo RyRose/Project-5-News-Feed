@@ -16,7 +16,7 @@ public class Database {
 	
 	public Database(String filename) throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
-        Connection con = DriverManager.getConnection(filename);
+        Connection con = DriverManager.getConnection("jdbc:sqlite:" + filename);
         stat = con.createStatement();
         createTables();
 	}

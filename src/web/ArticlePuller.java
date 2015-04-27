@@ -12,15 +12,16 @@ import de.l3s.boilerpipe.BoilerpipeExtractor;
 import de.l3s.boilerpipe.BoilerpipeProcessingException;
 import de.l3s.boilerpipe.extractors.CommonExtractors;
 import interfaces.Article;
+import interfaces.ArticleView;
 
 public class ArticlePuller extends Thread {
 
 	Article article;
 	TableColumn<Article, String> column;
 	
-	public ArticlePuller( Article article, TableColumn<Article, String> column ) {
+	public ArticlePuller( Article article, TableColumn<Article, String> column2 ) {
 		this.article = article;
-		this.column = column;
+		this.column = column2;
 	}
 
 	@Override
