@@ -44,6 +44,8 @@ public class Controller {
 	private String feedURL;
 	private FeedManager manager;
 	
+	//TO-DO
+	//Our parsers need to be changed in order to incorporate the new ArticleView class
 	@FXML
 	public void initialize() {
 		manager = new FeedManager(article);

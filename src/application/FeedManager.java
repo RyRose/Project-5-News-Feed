@@ -7,6 +7,7 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import interfaces.Article;
+import interfaces.ArticleView;
 import interfaces.Feed;
 import database.Database;
 import javafx.scene.control.TableColumn;
@@ -17,7 +18,7 @@ public class FeedManager {
 	private XmlParser parser;
 	private Database database;
 	
-	public FeedManager(TableColumn<Article, String> column) {
+	public FeedManager(TableColumn<ArticleView, String> column) {
 		parser = new XmlParser(column);
 		try {
 			database = new Database("news.db");

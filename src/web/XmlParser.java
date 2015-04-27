@@ -1,6 +1,7 @@
 package web;
 
 import interfaces.Article;
+import interfaces.ArticleView;
 import interfaces.Feed;
 
 import java.io.IOException;
@@ -18,14 +19,14 @@ import models.FeedImpl;
 
 public class XmlParser {
 	
-	TableColumn<Article, String> column;
+	TableColumn<ArticleView, String> column;
 	
 	public XmlParser() {
 		column = null;
 	}
 	
-	public XmlParser(TableColumn<Article, String> tableColumn) {
-		column = tableColumn;
+	public XmlParser(TableColumn<ArticleView, String> column2) {
+		column = column2;
 	}
 
 	public Feed readLink( String xmlLink ) throws XMLStreamException, IOException {
