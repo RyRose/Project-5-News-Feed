@@ -1,6 +1,7 @@
 package web;
 
 import interfaces.Article;
+import interfaces.ArticleView;
 import interfaces.Feed;
 
 import java.io.IOException;
@@ -8,7 +9,6 @@ import java.io.InputStream;
 import java.net.URL;
 
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
 
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
@@ -19,15 +19,11 @@ import models.FeedImpl;
 
 public class XmlParser {
 	
-	TableColumn<Article, String> column;
-	ObservableList<Article> articles;
+	ObservableList<ArticleView> articles;
 	
-	public XmlParser() {
-		column = null;
-	}
+	public XmlParser() {}
 	
-	public XmlParser(TableColumn<Article, String> tableColumn, ObservableList<Article> articles) {
-		column = tableColumn;
+	public XmlParser(ObservableList<ArticleView> articles) {
 		this.articles = articles;
 	}
 
@@ -107,7 +103,7 @@ public class XmlParser {
 				EndElement endElement = event.asEndElement();
 								
 				if (endElement.getName().getLocalPart() == "item") {
-					new ArticlePuller(article, column, articles).start();
+					new ArticlePuller(article, articles).start();
 					return article;
 				} 
 			} 

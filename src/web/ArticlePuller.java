@@ -5,7 +5,6 @@ import java.net.URL;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
 
 import org.xml.sax.InputSource;
 
@@ -13,16 +12,15 @@ import de.l3s.boilerpipe.BoilerpipeExtractor;
 import de.l3s.boilerpipe.BoilerpipeProcessingException;
 import de.l3s.boilerpipe.extractors.CommonExtractors;
 import interfaces.Article;
+import interfaces.ArticleView;
 
 public class ArticlePuller extends Thread {
 
 	Article article;
-	TableColumn<Article, String> column;
-	ObservableList<Article> articles;
+	ObservableList<ArticleView> articles;
 	
-	public ArticlePuller( Article article, TableColumn<Article, String> column, ObservableList<Article> articles ) {
+	public ArticlePuller( Article article, ObservableList<ArticleView> articles ) {
 		this.article = article;
-		this.column = column;
 		this.articles = articles;
 	}
 
@@ -32,11 +30,8 @@ public class ArticlePuller extends Thread {
 			article.setText( getArticleText(article.getLink()) );
 			
 			Platform.runLater( () -> {
-				if (column != null) {
-					articles.add( article );
-					column.setVisible(false); // Gross, hacky way to refresh the tableView's columns when there is new text.
-					column.setVisible(true);
-				}
+				ArticleView view = new ArticleView();
+				articles.add( view.convert(article) );
 			} );
 		} catch (IOException e) {
 			e.printStackTrace();

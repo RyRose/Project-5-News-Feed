@@ -6,11 +6,10 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import interfaces.Article;
+import interfaces.ArticleView;
 import interfaces.Feed;
 import database.Database;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
 import web.XmlParser;
 
 public class FeedManager {
@@ -18,8 +17,8 @@ public class FeedManager {
 	private XmlParser parser;
 	private Database database;
 	
-	public FeedManager(TableColumn<Article, String> column, ObservableList<Article> articles) {
-		parser = new XmlParser(column, articles);
+	public FeedManager(ObservableList<ArticleView> articles) {
+		parser = new XmlParser(articles);
 		try {
 			database = new Database("news.db");
 		} catch (ClassNotFoundException e) {
