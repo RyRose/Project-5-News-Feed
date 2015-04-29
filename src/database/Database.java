@@ -11,12 +11,13 @@ import models.FeedImpl;
 
 public class Database { // TODO: Make all statements PreparedStatements to prevent SQL injection from malicious RSS feeds/ RSS links
 	
+	Connection con;
 	Statement stat;
 	ArrayList<String> feeds = new ArrayList<String>();
 	
 	public Database(String filename) throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
-        Connection con = DriverManager.getConnection("jdbc:sqlite:" + filename);
+        con = DriverManager.getConnection("jdbc:sqlite:" + filename);
         stat = con.createStatement();
         createTables();
 	}
@@ -24,8 +25,7 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	public void createTables() {
 		try {
 			stat.executeUpdate("CREATE TABLE FeedLinkTable (RSSLink TEXT, FeedName TEXT)");
-			stat.executeUpdate("CREATE TABLE ArticleTable (RSSLink TEXT, Author TEXT, Date TEXT, Title TEXT, Contents TEXT,"
-					+ "Description TEXT)");
+			stat.executeUpdate("CREATE TABLE ArticleTable (RSSLink TEXT, Author TEXT, Date TEXT, Title TEXT, Contents TEXT, Description TEXT)");
 		}
 		catch (SQLException sq){
 			return;
@@ -38,16 +38,24 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	}
 	
 	public void addFeed(String rssLink, String feedName) throws SQLException {
-		if (!isFeedInDB(feedName)){
+		if (!isFeedInDB(rssLink)){
 			stat.executeUpdate("INSERT INTO FeedLinkTable VALUES ('" + rssLink + "', '" + feedName + "')");
-			feeds.add(feedName);
+			feeds.add(rssLink);
+			System.out.println("DB added feed: " + rssLink);
 		}
 		else return;
 	}
 	
 	public void addArticle(String rssLink, String author, String date, String title, String contents, String description) throws SQLException {
-		stat.executeUpdate("INSERT INTO ArticleTable VALUES ('" + rssLink + "', '" + author + "', '" + date + "', '" 
-		+ title + "', '" + contents + "', '" + description + "')");
+		PreparedStatement sql = con.prepareStatement("INSERT INTO ArticleTable VALUES (?, ?, ?, ?, ?, ?)");
+		sql.setString(1, rssLink);
+		sql.setString(2, author);
+		sql.setString(3, date);
+		sql.setString(4, title);
+		sql.setString(5, contents);
+		sql.setString(6, description);
+		sql.execute();
+		//stat.executeUpdate("INSERT INTO ArticleTable VALUES ('" + rssLink + "', '" + author + "', '" + date + "', '" + title + "', '" + contents + "', '" + description + "')");
 	}
 	
 	public String getRSSLink(String feedName) throws SQLException{
@@ -84,8 +92,12 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 		return feed;
 	}
 	
-	public boolean isFeedInDB(String feedName){
-		return feeds.contains(feedName);
+	public boolean isFeedInDB(String rssLink){
+		System.out.println("isFeedInDB got arg: " + rssLink);
+		for (String feed : feeds){
+			System.out.println("feeds list item: " + feed);
+		}
+		return feeds.contains(rssLink);
 	}
 	
 	ArrayList<String> getAllRSSLinks() throws SQLException{

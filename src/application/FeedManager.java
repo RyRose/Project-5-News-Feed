@@ -31,13 +31,16 @@ public class FeedManager {
 
 	public Feed getFeed(String rss_link) throws XMLStreamException, IOException, SQLException {
 		Feed feed = (database.isFeedInDB(rss_link)) ? database.getFeed(rss_link) : parser.readLink(rss_link);
+		System.out.println("isFeedInDB: " + rss_link);
 		// If the feed is in the database, retrieve it from there.
 		if (database.isFeedInDB(rss_link)){
 			feed = database.getFeed(rss_link);
+			System.out.println("Retrieved feed from database");
 		}
 		
 		// Else, pull it from the web and add it to the database.
 		else{
+			System.out.println("Pulling feed from web...");
 			feed = parser.readLink(rss_link);
 			// TODO: delay for the parser to download?
 			database.addFeed(rss_link, feed.getTitle());

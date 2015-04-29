@@ -85,7 +85,7 @@ public class Controller {
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
@@ -99,7 +99,7 @@ public class Controller {
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 		
 	}
