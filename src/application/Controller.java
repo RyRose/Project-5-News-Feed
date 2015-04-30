@@ -128,6 +128,46 @@ public class Controller {
 		}
 	}
 	
+	@FXML
+	private void hideTitle() {
+		title.setVisible(false);
+	}
+	
+	@FXML
+	private void hideAuthor() {
+		author.setVisible(false);
+	}
+	
+	@FXML
+	private void hideDate() {
+		date.setVisible(false);
+	}
+	
+	@FXML
+	private void hideArticle() {
+		article.setVisible(false);
+	}
+	
+	@FXML
+	private void showTitle() {
+		title.setVisible(true);
+	}
+	
+	@FXML
+	private void showAuthor() {
+		author.setVisible(true);
+	}
+	
+	@FXML
+	private void showDate() {
+		date.setVisible(true);
+	}
+	
+	@FXML
+	private void showArticle(){
+		article.setVisible(true);
+	}
+	
 	//Quits application.
 	@FXML
 	public void endApplication(){
