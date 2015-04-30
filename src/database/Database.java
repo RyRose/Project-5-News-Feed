@@ -97,6 +97,7 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 		for (String feed : feeds){
 			System.out.println("feeds list item: " + feed);
 		}
+		System.out.println(feeds.contains(rssLink));
 		return feeds.contains(rssLink);
 	}
 	

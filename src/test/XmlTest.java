@@ -12,16 +12,16 @@ import models.FeedImpl;
 
 import org.junit.Test;
 
-import web.XmlParser;
+import web.RssThread;
 
 public class XmlTest {
 	
 	URL url = getClass().getResource("test.xml");
 	
 	@Test
-	public void testXmlItemParsing() throws XMLStreamException, IOException {
-		XmlParser parser = new XmlParser();
-		Feed feed = parser.readLink(url);
+	public void testXmlItemParsing() throws XMLStreamException, IOException, InterruptedException {
+		RssThread parser = new RssThread(url.toString(), null);
+		parser.readLink(url.toString());
 	}
 
 }

@@ -1,14 +1,14 @@
 package web;
 
 import interfaces.Article;
-import interfaces.ArticleView;
 import interfaces.Feed;
+import interfaces.FeedListener;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.concurrent.ArrayBlockingQueue;
 
-import javafx.collections.ObservableList;
 
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
@@ -17,24 +17,38 @@ import models.ArticleImpl;
 import models.FeedImpl;
 
 
-public class XmlParser {
+public class RssThread extends Thread {
 	
-	ObservableList<ArticleView> articles;
+	private int numArticlesLeft;
+	private FeedListener listener;
+	private String rssLink;
 	
-	public XmlParser() {}
+	private ArrayBlockingQueue<Article> articleQueue;
+		
+	public RssThread( String rssLink, FeedListener listener ) {
+		this.rssLink = rssLink;
+		articleQueue = new ArrayBlockingQueue<Article>(4);
+		numArticlesLeft = 0;
+		this.listener = listener;
+	}
 	
-	public XmlParser(ObservableList<ArticleView> articles) {
-		this.articles = articles;
+	@Override
+	public void run() {
+		try {
+			readLink(rssLink);
+		} catch (XMLStreamException | IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public Feed readLink( String xmlLink ) throws XMLStreamException, IOException {
-		return readLink( new URL(xmlLink) );
+	public void readLink( String xmlLink ) throws XMLStreamException, IOException, InterruptedException {
+		readLink( new URL(xmlLink) );
 	}
 
-	public Feed readLink( URL xmlLink ) throws XMLStreamException, IOException {
+	public void readLink( URL xmlLink ) throws XMLStreamException, IOException, InterruptedException {
 		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-		InputStream in = xmlLink.openStream();
-		XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
+		URLConnection in = xmlLink.openConnection();
+		XMLEventReader eventReader = inputFactory.createXMLEventReader( in.getInputStream() );
 		Feed feed = new FeedImpl();
 		feed.setRssLink( xmlLink.toString() );
 
@@ -44,7 +58,7 @@ public class XmlParser {
 			if (event.isStartElement()) {
 				switch( event.asStartElement().getName().getLocalPart() ) {
 				case "item":
-					feed.add( getArticle(eventReader) );
+					extractArticle(eventReader);
 					break;
 				case "title":
 					feed.setTitle( extractData(eventReader) );
@@ -68,15 +82,13 @@ public class XmlParser {
 			} else if (event.isEndElement()) {
 					EndElement endElement = event.asEndElement();
 					if (endElement.getName().getLocalPart() == "channel") {
-						return feed;
+						finalize(feed);
 					} 
 			}
 		}
-		
-		throw new IOException();
 	}
 
-	private Article getArticle( XMLEventReader reader ) throws XMLStreamException, IOException {
+	private void extractArticle( XMLEventReader reader ) throws XMLStreamException, IOException {
 		Article article = new ArticleImpl();
 		while (reader.hasNext()) {
 			XMLEvent event = reader.nextEvent();
@@ -100,11 +112,11 @@ public class XmlParser {
 					break;
 				}
 			} else if (event.isEndElement()) {
-				EndElement endElement = event.asEndElement();
-								
-				if (endElement.getName().getLocalPart() == "item") {
-					new ArticlePuller(article, articles).start();
-					return article;
+				EndElement endElement = event.asEndElement();	
+				if (endElement.getName().getLocalPart().equals("item")) {
+					numArticlesLeft++;
+					new ArticlePuller(article, articleQueue).start();
+					return;
 				} 
 			} 
 		}
@@ -116,4 +128,13 @@ public class XmlParser {
 		XMLEvent event = reader.nextEvent();
 		return event.isEndElement() ? "" : event.asCharacters().getData(); // <-- If the content is blank, the reader moves over to the next
 	}																	   // element instead of to the blank content. This takes care of that.
+	
+	private void finalize( Feed feed ) throws InterruptedException {
+		while( numArticlesLeft > 0 ) {
+			feed.add( articleQueue.take() );
+			numArticlesLeft--;
+		}
+		
+		listener.addFeed(feed);
+	}
 }
