@@ -77,24 +77,15 @@ public class Controller {
 		
 		feedURL = userInput.getText();
 		userInput.clear();
-		Feed feed;
-		
-		try {
-			feed = manager.getFeed(feedURL);
-		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
-			userInput.setText(e.toString());
-			table.setPlaceholder(new Label("Looks like something went wrong."));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		addUsingString(feedURL);
 	}
 
 	//This can be used for testing and refreshing the feed.
-	public void addRefreshed(String testFeed) {
+	public void addUsingString(String userFeed) {
 		Feed feed;
 		
 		try {
-			feed = manager.getFeed(testFeed);
+			feed = manager.getFeed(userFeed);
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
@@ -109,7 +100,7 @@ public class Controller {
 	private void testRSSAdding() {
 		clear();
 		String hendrixFeed = "https://www.hendrix.edu/news/RssFeed.ashx?fol=235";
-		addRefreshed(hendrixFeed);
+		addUsingString(hendrixFeed);
 	}
 	
 	//Clears table. Used every time a user makes a request.
@@ -117,6 +108,24 @@ public class Controller {
 	private void clear() {
 		articles.clear();
 		table.setVisible(true);
+	}
+	
+	@FXML
+	private void nextArticle() {
+		if (table.getSelectionModel().getSelectedIndex() + 1 < articles.size()) {
+			table.getSelectionModel().select(table.getSelectionModel().getSelectedIndex() + 1);
+			table.getSelectionModel().focus(table.getSelectionModel().getSelectedIndex() + 1);
+			table.scrollTo(table.getSelectionModel().getSelectedIndex() + 1);
+		}
+	}
+	
+	@FXML
+	private void previousArticle() {
+		if (table.getSelectionModel().getSelectedIndex() - 1 >= 0) {
+			table.getSelectionModel().select(table.getSelectionModel().getSelectedIndex() - 1);
+			table.getSelectionModel().focus(table.getSelectionModel().getSelectedIndex() - 1);
+			table.scrollTo(table.getSelectionModel().getSelectedIndex() - 1);
+		}
 	}
 	
 	//Quits application.

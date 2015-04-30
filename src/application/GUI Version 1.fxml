@@ -51,6 +51,14 @@
                           </columns>
                         </TableView>
                      </center>
+                     <bottom>
+                        <HBox prefHeight="25.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#previousArticle" prefWidth="400.0" text="Previous Article" />
+                              <Button mnemonicParsing="false" onAction="#nextArticle" prefWidth="400.0" text="Next Article" />
+                           </children>
+                        </HBox>
+                     </bottom>
                   </BorderPane>
                </content>
           </Tab>
