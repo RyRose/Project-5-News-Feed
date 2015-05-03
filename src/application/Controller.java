@@ -8,6 +8,8 @@ import java.sql.SQLException;
 
 
 
+
+
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -21,18 +23,26 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 public class Controller implements FeedListener {
 	//FXML Objects Not Involved in TreeTableView
 	@FXML
 	private TextField userInput;
+	@FXML
+	private TabPane pane;
+	@FXML
+	private BorderPane object;
 	
 	//TreeTableView Table and Columns
 	@FXML
@@ -204,5 +214,36 @@ public class Controller implements FeedListener {
 	public void endApplication(){
 		Platform.exit();
 	}
+	
+	//Method created to grab the borderpane out of an fxmlloader
+	@FXML
+	private BorderPane getBorderPane() {
+		return object;
+	}
+	
+	@FXML
+	public void addTab() { 
+		FXMLLoader loader = new FXMLLoader();
+		try {
+			//Had to create a new root object and then rip out the BorderPane from it.
+			loader.load(this.getClass().getResource("GUI Version 1.fxml").openStream());
+			Controller temp = loader.getController();
+			BorderPane newPane = temp.getBorderPane();
+		
+			//Create a new tab and give it the ripped BorderPane as its content.
+			//CURRENT ISSUE: You can only add a new tab if the very first one is selected. Not sure a way around this.
+			Tab newTab = new Tab();
+			newTab.setContent(newPane);
+			pane.getTabs().add(newTab);
+		} catch (IOException e) {
+		 	e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void removeTab() {
+		pane.getTabs().remove(pane.getSelectionModel().getSelectedItem());
+	}
+
 
 }

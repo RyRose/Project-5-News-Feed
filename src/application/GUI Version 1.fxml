@@ -30,6 +30,16 @@
                   <MenuItem mnemonicParsing="false" onAction="#showArticle" text="Show Article Text" />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Add Tab">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#addTab" text="Add New Tab" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Remove Tab">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#removeTab" text="Delete Selected Tab" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Clear Table">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#clear" text="Remove All Data from Table" />
@@ -54,11 +64,11 @@
       </MenuBar>
    </top>
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="pane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Untitled Tab 1">
                <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                  <BorderPane fx:id="object" prefHeight="200.0" prefWidth="200.0">
                      <top>
                         <HBox prefHeight="15.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                            <children>
