@@ -13,7 +13,6 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	
 	Connection con;
 	Statement stat;
-	ArrayList<String> feeds = new ArrayList<String>();
 	
 	public Database(String filename) throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
@@ -43,7 +42,6 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 			sql.setString(1, rssLink);
 			sql.setString(2, feedName);
 			sql.execute();
-			feeds.add(rssLink);
 		}
 		else return;
 	}
@@ -91,6 +89,7 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 		feed.setTitle(getFeedName(rssLink));
 		
 		PreparedStatement sql = con.prepareStatement("SELECT * FROM ArticleTable WHERE RSSLINK = ?");
+		sql.setString(1, rssLink);
 		sql.execute();
 		ResultSet results = sql.getResultSet();
 		
@@ -106,8 +105,12 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 		return feed;
 	}
 	
-	public boolean isFeedInDB(String rssLink){
-		return feeds.contains(rssLink);
+	public boolean isFeedInDB(String rssLink) throws SQLException{
+		PreparedStatement sql = con.prepareStatement("SELECT * FROM FeedLinkTable WHERE RSSLink = ?");
+		sql.setString(1, rssLink);
+		sql.execute();
+		ResultSet results = sql.getResultSet();
+		return results.isBeforeFirst();
 	}
 	
 	ArrayList<String> getAllRSSLinks() throws SQLException{
@@ -125,5 +128,11 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 			feeds.add(getFeed(rssLink));
 		}
 		return feeds;
+	}
+	
+	public void removeArticles(String rssLink) throws SQLException{
+		PreparedStatement sql = con.prepareStatement("DELETE FROM ArticleTable WHERE RSSLINK = ?");
+		sql.setString(1, rssLink);
+		sql.execute();
 	}
 }

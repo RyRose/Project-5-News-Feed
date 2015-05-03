@@ -54,21 +54,22 @@ public class FeedManager {
 			listener.addFeed( getFeed(rss_link) );
 			return;
 		}
-		System.out.println("Starting new RssThread");
+		// This ends up pulling the feed from the web and adding it to the db.
 		new RssThread(rss_link, listener).run();
 	}
 	
 	public void addFeed(Feed feed) throws SQLException {
+		System.out.println("in addFeed()");
 		if (database.isFeedInDB(feed.getRssLink())) {
 			// TODO: remove all the articles of feed in database because this in a refresh state
 			// Or, set up the database such that duplicate articles cannot be added.
-			return;
+			database.removeArticles(feed.getRssLink());
+			System.out.println("Removed all articles from feed " + feed.getRssLink());
 		} else { // We are adding for the first time.
-			System.out.println("adding feed to db");
+			System.out.println("adding feed for first time");
 			database.addFeed(feed.getRssLink(), feed.getTitle());
 		}
 		
-		System.out.println("adding new feed's articles to db");
 		for (Article art: feed.getArticles()){
 			database.addArticle(feed.getRssLink(), art.getAuthor(), art.getDate(), art.getTitle(), art.getText(), art.getDescription());
 		}
