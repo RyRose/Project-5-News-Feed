@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import models.ArticleImpl;
 import models.FeedImpl;
 
-public class Database { // TODO: Make all statements PreparedStatements to prevent SQL injection from malicious RSS feeds/ RSS links
+public class Database {
 	
 	Connection con;
 	Statement stat;
+	PreparedStatement sql;
 	
 	public Database(String filename) throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
@@ -23,8 +24,10 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	
 	public void createTables() {
 		try {
-			stat.executeUpdate("CREATE TABLE FeedLinkTable (RSSLink TEXT, FeedName TEXT)");
-			stat.executeUpdate("CREATE TABLE ArticleTable (RSSLink TEXT, Author TEXT, Date TEXT, Title TEXT, Contents TEXT, Description TEXT)");
+			sql = con.prepareStatement("CREATE TABLE FeedLinkTable (RSSLink TEXT, FeedName TEXT)");
+			sql.execute();
+			sql = con.prepareStatement("CREATE TABLE ArticleTable (RSSLink TEXT, Author TEXT, Date TEXT, Title TEXT, Contents TEXT, Description TEXT)");
+			sql.execute();
 		}
 		catch (SQLException sq){
 			return;
@@ -32,13 +35,15 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	}
 	
 	public void deleteTables() throws SQLException {
-		stat.executeUpdate("DROP TABLE FeedLinkTable");
-		stat.executeUpdate("DROP TABLE ArticleTable");
+		sql = con.prepareStatement("DROP TABLE FeedLinkTable");
+		sql.execute();
+		sql = con.prepareStatement("DROP TABLE ArticleTable");
+		sql.execute();
 	}
 	
 	public void addFeed(String rssLink, String feedName) throws SQLException {
 		if (!isFeedInDB(rssLink)){
-			PreparedStatement sql = con.prepareStatement("INSERT INTO FeedLinkTable VALUES (?, ?)");
+			sql = con.prepareStatement("INSERT INTO FeedLinkTable VALUES (?, ?)");
 			sql.setString(1, rssLink);
 			sql.setString(2, feedName);
 			sql.execute();
@@ -47,7 +52,7 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	}
 	
 	public void addArticle(String rssLink, String author, String date, String title, String contents, String description) throws SQLException {
-		PreparedStatement sql = con.prepareStatement("INSERT INTO ArticleTable VALUES (?, ?, ?, ?, ?, ?)");
+		sql = con.prepareStatement("INSERT INTO ArticleTable VALUES (?, ?, ?, ?, ?, ?)");
 		sql.setString(1, rssLink);
 		sql.setString(2, author);
 		sql.setString(3, date);
@@ -57,13 +62,8 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 		sql.execute();
 	}
 	
-	/**
-	 * @param feedName
-	 * @return
-	 * @throws SQLException
-	 */
 	public String getRSSLink(String feedName) throws SQLException{
-		PreparedStatement sql = con.prepareStatement("SELECT * FROM FeedLinkTable WHERE FeedName = ?");
+		sql = con.prepareStatement("SELECT * FROM FeedLinkTable WHERE FeedName = ?");
 		sql.setString(1, feedName);
 		sql.execute();
 		ResultSet results = sql.getResultSet();
@@ -73,7 +73,7 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	}
 	
 	public String getFeedName(String rssLink) throws SQLException{
-		PreparedStatement sql = con.prepareStatement("SELECT * FROM FeedLinkTable WHERE RSSLink = ?");
+		sql = con.prepareStatement("SELECT * FROM FeedLinkTable WHERE RSSLink = ?");
 		sql.setString(1, rssLink);
 		sql.execute();
 		ResultSet results = sql.getResultSet();
@@ -88,7 +88,7 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 		feed.setRssLink(rssLink);
 		feed.setTitle(getFeedName(rssLink));
 		
-		PreparedStatement sql = con.prepareStatement("SELECT * FROM ArticleTable WHERE RSSLINK = ?");
+		sql = con.prepareStatement("SELECT * FROM ArticleTable WHERE RSSLINK = ?");
 		sql.setString(1, rssLink);
 		sql.execute();
 		ResultSet results = sql.getResultSet();
@@ -106,7 +106,7 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	}
 	
 	public boolean isFeedInDB(String rssLink) throws SQLException{
-		PreparedStatement sql = con.prepareStatement("SELECT * FROM FeedLinkTable WHERE RSSLink = ?");
+		sql = con.prepareStatement("SELECT * FROM FeedLinkTable WHERE RSSLink = ?");
 		sql.setString(1, rssLink);
 		sql.execute();
 		ResultSet results = sql.getResultSet();
@@ -115,7 +115,9 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	
 	ArrayList<String> getAllRSSLinks() throws SQLException{
 		ArrayList<String> links = new ArrayList<String>();
-		ResultSet results = stat.executeQuery("SELECT * FROM FeedLinkTable");
+		sql = con.prepareStatement("SELECT * FROM FeedLinkTable");
+		sql.execute();
+		ResultSet results = sql.getResultSet();
 		while (results.next()){
 			links.add(results.getString("RSSLink"));
 		}
@@ -131,7 +133,7 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	}
 	
 	public void removeArticles(String rssLink) throws SQLException{
-		PreparedStatement sql = con.prepareStatement("DELETE FROM ArticleTable WHERE RSSLINK = ?");
+		sql = con.prepareStatement("DELETE FROM ArticleTable WHERE RSSLINK = ?");
 		sql.setString(1, rssLink);
 		sql.execute();
 	}

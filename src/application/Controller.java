@@ -84,19 +84,9 @@ public class Controller implements FeedListener {
 	
 	@Override
 	public void addFeed( Feed feed ) {
-//		try {
-//			manager.addFeed(feed);
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		showFeed(feed);
-//		return;
 		try {
-			//feed = manager.getFeed(feedURL);
 			manager.addFeed(feed);
 			showFeed( manager.getFeed( feed.getRssLink() ) );
-			//showFeed( feed ); // TODO: replace with line above when it works since database can sort by date
 		} catch (SQLException | XMLStreamException | IOException e) {
 			e.printStackTrace();
 		}
