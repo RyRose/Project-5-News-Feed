@@ -2,9 +2,7 @@ package web;
 
 import java.io.IOException;
 import java.net.URL;
-
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import org.xml.sax.InputSource;
 
@@ -12,28 +10,23 @@ import de.l3s.boilerpipe.BoilerpipeExtractor;
 import de.l3s.boilerpipe.BoilerpipeProcessingException;
 import de.l3s.boilerpipe.extractors.CommonExtractors;
 import interfaces.Article;
-import interfaces.ArticleView;
 
 public class ArticlePuller extends Thread {
 
 	Article article;
-	ObservableList<ArticleView> articles;
+	private ArrayBlockingQueue<Article> articleQueue;
 	
-	public ArticlePuller( Article article, ObservableList<ArticleView> articles ) {
+	public ArticlePuller( Article article, ArrayBlockingQueue<Article> articleQueue ) {
 		this.article = article;
-		this.articles = articles;
+		this.articleQueue = articleQueue;
 	}
 
 	@Override
 	public void run() {
 		try {
 			article.setText( getArticleText(article.getLink()) );
-			
-			Platform.runLater( () -> {
-				ArticleView view = new ArticleView();
-				articles.add( view.convert(article) );
-			} );
-		} catch (IOException e) {
+			articleQueue.put(article);
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}

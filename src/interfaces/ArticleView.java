@@ -11,7 +11,7 @@ public class ArticleView {
 	public Text description;
 	public Text text;
 	
-	public ArticleView convert(Article art) {
+	public ArticleView( Article art ) {
 		title = convertToText(art.getTitle());
 		link = convertToText(art.getLink());
 		author = convertToText(art.getAuthor());
@@ -24,7 +24,6 @@ public class ArticleView {
 		author.setWrappingWidth(150);
 		date.setWrappingWidth(100);
 		text.setWrappingWidth(350);
-		return this;
 	}
 	
 	public Text getTitle() {

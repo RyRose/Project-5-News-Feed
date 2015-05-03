@@ -9,6 +9,22 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
+            <Menu mnemonicParsing="false" text="Hide Columns">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#hideTitle" text="Hide Article Title" />
+                  <MenuItem mnemonicParsing="false" onAction="#hideAuthor" text="Hide Article Author" />
+                  <MenuItem mnemonicParsing="false" onAction="#hideDate" text="Hide Article Date" />
+                  <MenuItem mnemonicParsing="false" onAction="#hideArticle" text="Hide Article Text" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Show Columns">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#showTitle" text="Show Article Title" />
+                  <MenuItem mnemonicParsing="false" onAction="#showAuthor" text="Show Article Author" />
+                  <MenuItem mnemonicParsing="false" onAction="#showDate" text="Show Article Date" />
+                  <MenuItem mnemonicParsing="false" onAction="#showArticle" text="Show Article Text" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Refresh Feed">
             <items>
               <MenuItem mnemonicParsing="false" text="Refresh RSS Feed Manually" />
@@ -51,6 +67,14 @@
                           </columns>
                         </TableView>
                      </center>
+                     <bottom>
+                        <HBox prefHeight="25.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#previousArticle" prefWidth="400.0" text="Previous Article" />
+                              <Button mnemonicParsing="false" onAction="#nextArticle" prefWidth="400.0" text="Next Article" />
+                           </children>
+                        </HBox>
+                     </bottom>
                   </BorderPane>
                </content>
           </Tab>

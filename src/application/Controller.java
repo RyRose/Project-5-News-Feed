@@ -2,13 +2,15 @@ package application;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
+
+
 
 import javax.xml.stream.XMLStreamException;
 
 import interfaces.Article;
 import interfaces.ArticleView;
 import interfaces.Feed;
+import interfaces.FeedListener;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 
-public class Controller {
+public class Controller implements FeedListener {
 	//FXML Objects Not Involved in TreeTableView
 	@FXML
 	private TextField userInput;
@@ -46,7 +48,7 @@ public class Controller {
 	@FXML
 	public void initialize() {
 		articles = FXCollections.observableArrayList();
-		manager = new FeedManager(articles);
+		manager = new FeedManager(this);
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles.\nPlease take note that pulling the article text may take a few."));
 		
 		//This is based off of the Article interface. If that is changed, please adjust this.
@@ -77,32 +79,40 @@ public class Controller {
 		
 		feedURL = userInput.getText();
 		userInput.clear();
-		Feed feed;
-		
+		addUsingString(feedURL);
+	}
+	
+	@Override
+	public void addFeed( Feed feed ) {
 		try {
 			System.out.println("in try of add()");
 			feed = manager.getFeed(feedURL);
+			manager.addFeed(feed);
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());
 			table.setPlaceholder(new Label("Looks like something went wrong."));
+			// showFeed( manager.getFeed( feed.getRssLink() ) );
+			showFeed( feed ); // TODO: replace with line above when it works since database can sort by date
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void showFeed( Feed feed ) {
+		clear();
+		for (Article art : feed.getArticles()) {
+			articles.add( new ArticleView(art) );
+		}
+	}
 
 	//This can be used for testing and refreshing the feed.
-	public void addRefreshed(String testFeed) {
-		Feed feed;
-		
+	public void addUsingString(String userFeed) {		
 		try {
-			feed = manager.getFeed(testFeed);
-		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
-			userInput.setText(e.toString());
-			table.setPlaceholder(new Label("Looks like something went wrong."));
-		} catch (SQLException e) {
+			manager.addFeed(userFeed);
+		} catch (XMLStreamException | IOException | SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	//Test method using Hendrix news feed at https://www.hendrix.edu/news/RssFeed.ashx?fol=235.
@@ -110,7 +120,7 @@ public class Controller {
 	private void testRSSAdding() {
 		clear();
 		String hendrixFeed = "https://www.hendrix.edu/news/RssFeed.ashx?fol=235";
-		addRefreshed(hendrixFeed);
+		addUsingString(hendrixFeed);
 	}
 	
 	//Clears table. Used every time a user makes a request.
@@ -118,6 +128,64 @@ public class Controller {
 	private void clear() {
 		articles.clear();
 		table.setVisible(true);
+	}
+	
+	@FXML
+	private void nextArticle() {
+		if (table.getSelectionModel().getSelectedIndex() + 1 < articles.size()) {
+			table.getSelectionModel().select(table.getSelectionModel().getSelectedIndex() + 1);
+			table.getSelectionModel().focus(table.getSelectionModel().getSelectedIndex() + 1);
+			table.scrollTo(table.getSelectionModel().getSelectedIndex() + 1);
+		}
+	}
+	
+	@FXML
+	private void previousArticle() {
+		if (table.getSelectionModel().getSelectedIndex() - 1 >= 0) {
+			table.getSelectionModel().select(table.getSelectionModel().getSelectedIndex() - 1);
+			table.getSelectionModel().focus(table.getSelectionModel().getSelectedIndex() - 1);
+			table.scrollTo(table.getSelectionModel().getSelectedIndex() - 1);
+		}
+	}
+	
+	@FXML
+	private void hideTitle() {
+		title.setVisible(false);
+	}
+	
+	@FXML
+	private void hideAuthor() {
+		author.setVisible(false);
+	}
+	
+	@FXML
+	private void hideDate() {
+		date.setVisible(false);
+	}
+	
+	@FXML
+	private void hideArticle() {
+		article.setVisible(false);
+	}
+	
+	@FXML
+	private void showTitle() {
+		title.setVisible(true);
+	}
+	
+	@FXML
+	private void showAuthor() {
+		author.setVisible(true);
+	}
+	
+	@FXML
+	private void showDate() {
+		date.setVisible(true);
+	}
+	
+	@FXML
+	private void showArticle(){
+		article.setVisible(true);
 	}
 	
 	//Quits application.
