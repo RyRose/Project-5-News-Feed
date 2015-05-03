@@ -28,6 +28,7 @@ public class Database {
 			sql.execute();
 			sql = con.prepareStatement("CREATE TABLE ArticleTable (RSSLink TEXT, Author TEXT, Date TEXT, Title TEXT, Contents TEXT, Description TEXT)");
 			sql.execute();
+			sql.close();
 		}
 		catch (SQLException sq){
 			return;
@@ -39,6 +40,7 @@ public class Database {
 		sql.execute();
 		sql = con.prepareStatement("DROP TABLE ArticleTable");
 		sql.execute();
+		sql.close();
 	}
 	
 	public void addFeed(String rssLink, String feedName) throws SQLException {
@@ -47,6 +49,7 @@ public class Database {
 			sql.setString(1, rssLink);
 			sql.setString(2, feedName);
 			sql.execute();
+			sql.close();
 		}
 		else return;
 	}
@@ -60,6 +63,7 @@ public class Database {
 		sql.setString(5, contents);
 		sql.setString(6, description);
 		sql.execute();
+		sql.close();
 	}
 	
 	public String getRSSLink(String feedName) throws SQLException{
@@ -69,6 +73,7 @@ public class Database {
 		ResultSet results = sql.getResultSet();
 		String rssLink = results.getString("RSSLink");
 		results.close();
+		sql.close();
 		return rssLink;
 	}
 	
@@ -79,6 +84,7 @@ public class Database {
 		ResultSet results = sql.getResultSet();
 		String feedName = results.getString("FeedName");
 		results.close();
+		sql.close();
 		return feedName;
 	}
 	
@@ -102,6 +108,8 @@ public class Database {
 			article.setText(results.getString("Contents"));
 			feed.add(article);
 		}
+		results.close();
+		sql.close();
 		return feed;
 	}
 	
@@ -110,10 +118,13 @@ public class Database {
 		sql.setString(1, rssLink);
 		sql.execute();
 		ResultSet results = sql.getResultSet();
-		return results.isBeforeFirst();
+		boolean temp = results.isBeforeFirst();
+		results.close();
+		sql.close();
+		return temp;
 	}
 	
-	ArrayList<String> getAllRSSLinks() throws SQLException{
+	public ArrayList<String> getAllRSSLinks() throws SQLException{
 		ArrayList<String> links = new ArrayList<String>();
 		sql = con.prepareStatement("SELECT * FROM FeedLinkTable");
 		sql.execute();
@@ -121,6 +132,8 @@ public class Database {
 		while (results.next()){
 			links.add(results.getString("RSSLink"));
 		}
+		results.close();
+		sql.close();
 		return links;
 	}
 	
@@ -136,5 +149,16 @@ public class Database {
 		sql = con.prepareStatement("DELETE FROM ArticleTable WHERE RSSLINK = ?");
 		sql.setString(1, rssLink);
 		sql.execute();
+		sql.close();
+	}
+	
+	public boolean hasArticles() throws SQLException {
+		sql = con.prepareStatement("SELECT * FROM ArticleTable");
+		sql.execute();
+		ResultSet results = sql.getResultSet();
+		boolean temp = results.next();
+		results.close();
+		sql.close();
+		return temp;
 	}
 }
