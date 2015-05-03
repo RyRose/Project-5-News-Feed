@@ -5,6 +5,12 @@ import java.sql.SQLException;
 
 
 
+
+
+
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.xml.stream.XMLStreamException;
 
 import interfaces.Article;
@@ -181,6 +187,16 @@ public class Controller implements FeedListener {
 	@FXML
 	private void showArticle(){
 		article.setVisible(true);
+	}
+	
+	@FXML
+	private void expandArticle() {
+		String articleText = table.getSelectionModel().getSelectedItem().getText().getText();
+		JTextArea msg = new JTextArea(articleText);
+		msg.setLineWrap(true);
+		msg.setWrapStyleWord(true);
+		JScrollPane scrollPane = new JScrollPane(msg);
+		JOptionPane.showMessageDialog(null, scrollPane);
 	}
 	
 	//Quits application.

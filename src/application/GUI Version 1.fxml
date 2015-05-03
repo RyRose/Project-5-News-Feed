@@ -9,6 +9,11 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
+            <Menu mnemonicParsing="false" text="Popout Article">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#expandArticle" text="Open Selected Article Text in New Window" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Hide Columns">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#hideTitle" text="Hide Article Title" />
@@ -23,6 +28,11 @@
                   <MenuItem mnemonicParsing="false" onAction="#showAuthor" text="Show Article Author" />
                   <MenuItem mnemonicParsing="false" onAction="#showDate" text="Show Article Date" />
                   <MenuItem mnemonicParsing="false" onAction="#showArticle" text="Show Article Text" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Clear Table">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#clear" text="Remove All Data from Table" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Refresh Feed">
