@@ -80,6 +80,7 @@ public class Controller {
 		Feed feed;
 		
 		try {
+			System.out.println("in try of add()");
 			feed = manager.getFeed(feedURL);
 		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
 			userInput.setText(e.toString());

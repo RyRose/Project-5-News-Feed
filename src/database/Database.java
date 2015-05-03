@@ -39,9 +39,11 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	
 	public void addFeed(String rssLink, String feedName) throws SQLException {
 		if (!isFeedInDB(rssLink)){
-			stat.executeUpdate("INSERT INTO FeedLinkTable VALUES ('" + rssLink + "', '" + feedName + "')");
+			PreparedStatement sql = con.prepareStatement("INSERT INTO FeedLinkTable VALUES (?, ?)");
+			sql.setString(1, rssLink);
+			sql.setString(2, feedName);
+			sql.execute();
 			feeds.add(rssLink);
-			System.out.println("DB added feed: " + rssLink);
 		}
 		else return;
 	}
@@ -55,18 +57,28 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 		sql.setString(5, contents);
 		sql.setString(6, description);
 		sql.execute();
-		//stat.executeUpdate("INSERT INTO ArticleTable VALUES ('" + rssLink + "', '" + author + "', '" + date + "', '" + title + "', '" + contents + "', '" + description + "')");
 	}
 	
+	/**
+	 * @param feedName
+	 * @return
+	 * @throws SQLException
+	 */
 	public String getRSSLink(String feedName) throws SQLException{
-		ResultSet results = stat.executeQuery("SELECT * FROM FeedLinkTable WHERE FeedName = '" + feedName + "'");
+		PreparedStatement sql = con.prepareStatement("SELECT * FROM FeedLinkTable WHERE FeedName = ?");
+		sql.setString(1, feedName);
+		sql.execute();
+		ResultSet results = sql.getResultSet();
 		String rssLink = results.getString("RSSLink");
 		results.close();
 		return rssLink;
 	}
 	
 	public String getFeedName(String rssLink) throws SQLException{
-		ResultSet results = stat.executeQuery("SELECT * FROM FeedLinkTable WHERE FeedName = '" + rssLink + "'");
+		PreparedStatement sql = con.prepareStatement("SELECT * FROM FeedLinkTable WHERE RSSLink = ?");
+		sql.setString(1, rssLink);
+		sql.execute();
+		ResultSet results = sql.getResultSet();
 		String feedName = results.getString("FeedName");
 		results.close();
 		return feedName;
@@ -78,7 +90,9 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 		feed.setRssLink(rssLink);
 		feed.setTitle(getFeedName(rssLink));
 		
-		ResultSet results = stat.executeQuery("SELECT * FROM ArticleTable WHERE RSSLINK = '" + rssLink + "'");
+		PreparedStatement sql = con.prepareStatement("SELECT * FROM ArticleTable WHERE RSSLINK = ?");
+		sql.execute();
+		ResultSet results = sql.getResultSet();
 		
 		while (results.next()){
 			Article article = new ArticleImpl();
@@ -93,10 +107,6 @@ public class Database { // TODO: Make all statements PreparedStatements to preve
 	}
 	
 	public boolean isFeedInDB(String rssLink){
-		System.out.println("isFeedInDB got arg: " + rssLink);
-		for (String feed : feeds){
-			System.out.println("feeds list item: " + feed);
-		}
 		return feeds.contains(rssLink);
 	}
 	
