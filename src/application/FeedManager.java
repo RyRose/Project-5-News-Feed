@@ -54,8 +54,8 @@ public class FeedManager {
 			listener.addFeed( getFeed(rss_link) );
 			return;
 		}
-		
-		new RssThread(rss_link, listener).start();
+		System.out.println("Starting new RssThread");
+		new RssThread(rss_link, listener).run();
 	}
 	
 	public void addFeed(Feed feed) throws SQLException {
@@ -64,9 +64,11 @@ public class FeedManager {
 			// Or, set up the database such that duplicate articles cannot be added.
 			return;
 		} else { // We are adding for the first time.
+			System.out.println("adding feed to db");
 			database.addFeed(feed.getRssLink(), feed.getTitle());
 		}
 		
+		System.out.println("adding new feed's articles to db");
 		for (Article art: feed.getArticles()){
 			database.addArticle(feed.getRssLink(), art.getAuthor(), art.getDate(), art.getTitle(), art.getText(), art.getDescription());
 		}

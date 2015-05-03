@@ -85,12 +85,8 @@ public class Controller implements FeedListener {
 	@Override
 	public void addFeed( Feed feed ) {
 		try {
-			System.out.println("in try of add()");
-			feed = manager.getFeed(feedURL);
+			//feed = manager.getFeed(feedURL);
 			manager.addFeed(feed);
-		} catch (XMLStreamException | IOException e) { // Means error in XML link or no internet available
-			userInput.setText(e.toString());
-			table.setPlaceholder(new Label("Looks like something went wrong."));
 			// showFeed( manager.getFeed( feed.getRssLink() ) );
 			showFeed( feed ); // TODO: replace with line above when it works since database can sort by date
 		} catch (SQLException e) {
@@ -119,6 +115,7 @@ public class Controller implements FeedListener {
 	@FXML
 	private void testRSSAdding() {
 		clear();
+		System.out.println("Trying hendrix feed");
 		String hendrixFeed = "https://www.hendrix.edu/news/RssFeed.ashx?fol=235";
 		addUsingString(hendrixFeed);
 	}
