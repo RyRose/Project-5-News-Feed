@@ -38,7 +38,7 @@
                         <HBox prefHeight="15.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                            <children>
                               <TextField fx:id="userInput" prefHeight="15.0" prefWidth="700.0" promptText="Place RSS Feed URL Here" />
-                              <Button mnemonicParsing="false" onAction="#add" prefHeight="15.0" prefWidth="100.0" text="Retreive Feed" />
+                              <Button mnemonicParsing="false" onAction="#add" prefHeight="15.0" prefWidth="100.0" text="Retreieve" />
                            </children>
                         </HBox>
                      </center>

@@ -1,5 +1,6 @@
-package interfaces;
+package application;
 
+import interfaces.Article;
 import javafx.scene.text.Text;
 
 public class ArticleView {

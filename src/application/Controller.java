@@ -9,7 +9,6 @@ import javax.swing.JTextArea;
 import javax.xml.stream.XMLStreamException;
 
 import interfaces.Article;
-import interfaces.ArticleView;
 import interfaces.Feed;
 import interfaces.FeedListener;
 import javafx.application.Platform;
@@ -146,11 +145,6 @@ public class Controller implements FeedListener {
 		}
 	}
 	
-	@FXML
-	private void testRefresh() {
-		manager.refreshFeeds(feedURL);
-	}
-	
 	//Clears table. Used every time a user makes a request.
 	@FXML
 	private void clear() {
@@ -174,45 +168,21 @@ public class Controller implements FeedListener {
 		}
 	}
 	
-	@FXML
-	private void hideTitle() {
-		title.setVisible(false);
-	}
-	
-	@FXML
-	private void hideAuthor() {
-		author.setVisible(false);
-	}
-	
-	@FXML
-	private void hideDate() {
-		date.setVisible(false);
-	}
-	
-	@FXML
-	private void hideArticle() {
-		article.setVisible(false);
-	}
-	
-	@FXML
-	private void showTitle() {
-		title.setVisible(true);
-	}
-	
-	@FXML
-	private void showAuthor() {
-		author.setVisible(true);
-	}
-	
-	@FXML
-	private void showDate() {
-		date.setVisible(true);
-	}
-	
-	@FXML
-	private void showArticle(){
-		article.setVisible(true);
-	}
+	@FXML private void testRefresh() {manager.refreshFeeds(feedURL);}
+	@FXML private void hideTitle() {title.setVisible(false);}
+	@FXML private void hideAuthor() {author.setVisible(false);}
+	@FXML private void hideDate() {date.setVisible(false);}
+	@FXML private void hideArticle() {article.setVisible(false);}
+	@FXML private void showTitle() {title.setVisible(true);}
+	@FXML private void showAuthor() {author.setVisible(true);}
+	@FXML private void showDate() {date.setVisible(true);}
+	@FXML private void showArticle() {article.setVisible(true);}
+	@FXML public void removeTab() {pane.getTabs().remove(pane.getSelectionModel().getSelectedItem());}
+	@FXML private void getNPR() {addUsingString("http://www.npr.org/rss/rss.php?id=1001");}
+	@FXML private void getHendrix() {addUsingString("https://www.hendrix.edu/news/RssFeed.ashx?fol=235");}
+	@FXML private void getESPN() {addUsingString("http://sports.espn.go.com/espn/rss/news");}
+	@FXML private void getGizmodo() {addUsingString("http://feeds.gawker.com/gizmodo/full#_ga=1.116383045.299019652.1421158651");}
+	@FXML private void getRollingStone() {addUsingString("http://www.rollingstone.com/news.rss");}
 	
 	@FXML
 	private void expandArticle() {
@@ -225,16 +195,9 @@ public class Controller implements FeedListener {
 	}
 	
 	//Quits application.
-	@FXML
-	public void endApplication(){
-		Platform.exit();
-	}
-	
+	@FXML public void endApplication(){Platform.exit();}
 	//Method created to grab the borderpane out of an fxmlloader
-	@FXML
-	private BorderPane getBorderPane() {
-		return object;
-	}
+	@FXML private BorderPane getBorderPane() {return object;}
 	
 	@FXML
 	public void addTab() { 
@@ -256,35 +219,5 @@ public class Controller implements FeedListener {
 		} catch (IOException e) {
 		 	e.printStackTrace();
 		}
-	}
-	
-	@FXML
-	public void removeTab() {
-		pane.getTabs().remove(pane.getSelectionModel().getSelectedItem());
-	}
-	
-	@FXML
-	private void getNPR() {
-		addUsingString("http://www.npr.org/rss/rss.php?id=1001");
-	}
-	
-	@FXML
-	private void getHendrix() {
-		addUsingString("https://www.hendrix.edu/news/RssFeed.ashx?fol=235");
-	}
-	
-	@FXML
-	private void getESPN() {
-		addUsingString("http://sports.espn.go.com/espn/rss/news");
-	}
-	
-	@FXML
-	private void getGizmodo() {
-		addUsingString("http://feeds.gawker.com/gizmodo/full#_ga=1.116383045.299019652.1421158651");
-	}
-	
-	@FXML
-	private void getRollingStone() {
-		addUsingString("http://www.rollingstone.com/news.rss");
 	}
 }
