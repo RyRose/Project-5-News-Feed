@@ -116,8 +116,8 @@ public class Controller implements FeedListener {
 	//This can be used for testing and refreshing the feed.
 	public void addUsingString(String userFeed) {		
 		try {
-			pane.getSelectionModel().getSelectedItem().setText(userFeed);
 			manager.addFeed(userFeed);
+			pane.getSelectionModel().getSelectedItem().setText(userFeed);
 			feedURL = userFeed;
 		} catch (XMLStreamException | IOException | SQLException e) {
 			e.printStackTrace();
