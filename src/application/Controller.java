@@ -132,6 +132,7 @@ public class Controller implements FeedListener {
 	@Override
 	public void showFeed( Feed feed ) {
 		clear();
+		pane.getSelectionModel().getSelectedItem().setText(feed.getTitle());
 		for (Article art : feed.getArticles()) {
 			articles.add( new ArticleView(art) );
 		}
