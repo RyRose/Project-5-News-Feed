@@ -11,6 +11,8 @@ public class SystemTrayListener {
 	
 	private static SystemTrayListener listener = new SystemTrayListener();
 	
+	public static int index = 0;
+	
 	public static SystemTrayListener getInstance() {
 		return listener;
 	}

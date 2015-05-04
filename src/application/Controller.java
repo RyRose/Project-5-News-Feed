@@ -21,7 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.TableView;																																																																																																			
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -54,9 +54,13 @@ public class Controller implements FeedListener {
 	private String feedURL;
 	private FeedManager manager;
 	private SystemTrayListener sysTray;
-		
+	
+	public int index;
+	
 	@FXML
 	public void initialize() {
+		index = SystemTrayListener.index++;
+		
 		articles = FXCollections.observableArrayList();
 		manager = new FeedManager(this);
 		sysTray = SystemTrayListener.getInstance();
@@ -70,7 +74,7 @@ public class Controller implements FeedListener {
 		date.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("date"));
 		article.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("text"));
 		author.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("author"));
-		
+																																																																																																																								
 		table.setItems(articles);
 
 		//Keylistener for enter key.
@@ -78,6 +82,28 @@ public class Controller implements FeedListener {
 			KeyCode key = event.getCode();
 			if (key == KeyCode.ENTER) {add();}
 		});
+		
+		start();
+	}
+	
+	private void start() {
+		try {
+			if (manager.getStoredFeeds().size() > index) {
+				initializeExistingInformation(manager.getStoredFeeds().get(index));
+				
+				if (manager.getStoredFeeds().size() > index + 1) {	
+					addExistingTab(manager.getStoredFeeds().get(index + 1), index + 1);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	private void initializeExistingInformation(Feed feed) {
+		feedURL = feed.getRssLink();
+		showFeed(feed);
+		testRefresh();
 	}
 	
 	@FXML
@@ -105,8 +131,6 @@ public class Controller implements FeedListener {
 	
 	@Override
 	public void showFeed( Feed feed ) {
-		System.out.println("Showing Feed");
-		System.out.println(articles);
 		clear();
 		for (Article art : feed.getArticles()) {
 			articles.add( new ArticleView(art) );
@@ -214,6 +238,24 @@ public class Controller implements FeedListener {
 	@FXML
 	private BorderPane getBorderPane() {
 		return object;
+	}
+	
+	public void addExistingTab( Feed feed, int idx ) {
+		FXMLLoader loader = new FXMLLoader();
+		try {
+			//Had to create a new root object and then rip out the BorderPane from it.
+			loader.load(this.getClass().getResource("GUI Version 1.fxml").openStream());
+			Controller temp = loader.getController();
+			BorderPane newPane = temp.getBorderPane();
+		
+			//Create a new tab and give it the ripped BorderPane as its content.
+			//CURRENT ISSUE: You can only add a new tab if the very first one is selected. Not sure a way around this.
+			Tab newTab = new Tab();
+			newTab.setContent(newPane);
+			pane.getTabs().add(newTab);
+		} catch (IOException e) {
+		 	e.printStackTrace();
+		}
 	}
 	
 	@FXML
