@@ -59,7 +59,6 @@ public class Controller implements FeedListener {
 	@FXML
 	public void initialize() {
 		index = SystemTrayListener.index++;
-		
 		articles = FXCollections.observableArrayList();
 		manager = new FeedManager(this);
 		sysTray = SystemTrayListener.getInstance();
@@ -73,8 +72,7 @@ public class Controller implements FeedListener {
 		title.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("title"));
 		date.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("date"));
 		article.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("text"));
-		author.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("author"));
-																																																																																																																								
+		author.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("author"));																																																																																																																					
 		table.setItems(articles);
 
 		//Keylistener for enter key.
@@ -88,12 +86,8 @@ public class Controller implements FeedListener {
 	
 	private void start() {
 		try {
-			if (manager.getStoredFeeds().size() > index) {
-				initializeExistingInformation(manager.getStoredFeeds().get(index));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}	
+			if (manager.getStoredFeeds().size() > index) {initializeExistingInformation(manager.getStoredFeeds().get(index));}
+		} catch (SQLException e) {e.printStackTrace();}	
 	}
 	
 	private void initializeExistingInformation(Feed feed) {
@@ -108,7 +102,6 @@ public class Controller implements FeedListener {
 			userInput.setPromptText("Please enter a URL before pressing the button or enter key.");
 			return;
 		}
-		
 		feedURL = userInput.getText();
 		userInput.clear();
 		addUsingString(feedURL);
@@ -140,9 +133,7 @@ public class Controller implements FeedListener {
 			manager.addFeed(userFeed);
 			pane.getSelectionModel().getSelectedItem().setText(userFeed);
 			feedURL = userFeed;
-		} catch (XMLStreamException | IOException | SQLException e) {
-			e.printStackTrace();
-		}
+		} catch (XMLStreamException | IOException | SQLException e) {e.printStackTrace();}
 	}
 	
 	//Clears table. Used every time a user makes a request.
@@ -183,6 +174,8 @@ public class Controller implements FeedListener {
 	@FXML private void getESPN() {addUsingString("http://sports.espn.go.com/espn/rss/news");}
 	@FXML private void getGizmodo() {addUsingString("http://feeds.gawker.com/gizmodo/full#_ga=1.116383045.299019652.1421158651");}
 	@FXML private void getRollingStone() {addUsingString("http://www.rollingstone.com/news.rss");}
+	@FXML public void endApplication(){Platform.exit();}
+	@FXML private BorderPane getBorderPane() {return object;}
 	
 	@FXML
 	private void expandArticle() {
@@ -194,22 +187,13 @@ public class Controller implements FeedListener {
 		JOptionPane.showMessageDialog(null, scrollPane);
 	}
 	
-	//Quits application.
-	@FXML public void endApplication(){Platform.exit();}
-	//Method created to grab the borderpane out of an fxmlloader
-	@FXML private BorderPane getBorderPane() {return object;}
-	
 	@FXML
 	public void addTab() { 
 		FXMLLoader loader = new FXMLLoader();
 		try {
-			//Had to create a new root object and then rip out the BorderPane from it.
 			loader.load(this.getClass().getResource("GUI Version 1.fxml").openStream());
 			Controller temp = loader.getController();
 			BorderPane newPane = temp.getBorderPane();
-		
-			//Create a new tab and give it the ripped BorderPane as its content.
-			//CURRENT ISSUE: You can only add a new tab if the very first one is selected. Not sure a way around this.
 			Tab newTab = new Tab();
 			newTab.setContent(newPane);
 			tabCount += 1;
