@@ -15,10 +15,12 @@ public class ArticlePuller extends Thread {
 
 	Article article;
 	private ArrayBlockingQueue<Article> articleQueue;
+	private boolean isPullingArticles;
 	
-	public ArticlePuller( Article article, ArrayBlockingQueue<Article> articleQueue ) {
+	public ArticlePuller( Article article, ArrayBlockingQueue<Article> articleQueue, boolean isPullingArticles ) {
 		this.article = article;
 		this.articleQueue = articleQueue;
+		this.isPullingArticles = isPullingArticles;
 	}
 
 	@Override
@@ -31,7 +33,10 @@ public class ArticlePuller extends Thread {
 		}
 	}
 	
-	private String getArticleText( String link ) throws IOException {
+	public String getArticleText( String link ) throws IOException {
+		if (!isPullingArticles)
+			return "";
+		
 		URL url = new URL(link);
 		InputSource source = new InputSource();
 		

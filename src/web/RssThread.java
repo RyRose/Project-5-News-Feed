@@ -9,10 +9,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
+
+import org.junit.Test;
 
 import models.ArticleImpl;
 import models.FeedImpl;
@@ -21,6 +24,7 @@ import models.FeedImpl;
 public class RssThread extends Thread {
 	
 	private int numArticlesLeft;
+	private boolean isPullingArticles;
 	private FeedListener listener;
 	private String rssLink;
 	
@@ -31,8 +35,17 @@ public class RssThread extends Thread {
 		articleQueue = new ArrayBlockingQueue<Article>(4);
 		numArticlesLeft = 0;
 		this.listener = listener;
+		isPullingArticles = true;
 	}
 	
+	public RssThread(String rssLink, FeedListener listener, boolean isPullingArticles ) {
+		articleQueue = new ArrayBlockingQueue<Article>(4);
+		this.rssLink = rssLink;
+		this.numArticlesLeft = 0;
+		this.listener = listener;
+		this.isPullingArticles = isPullingArticles;
+	}
+		
 	@Override
 	public void run() {
 		try {
@@ -116,7 +129,7 @@ public class RssThread extends Thread {
 				EndElement endElement = event.asEndElement();	
 				if (endElement.getName().getLocalPart().equals("item")) {
 					numArticlesLeft++;
-					new ArticlePuller(article, articleQueue).start();
+					new ArticlePuller(article, articleQueue, isPullingArticles).start();
 					return;
 				} 
 			} 
@@ -136,8 +149,11 @@ public class RssThread extends Thread {
 			numArticlesLeft--;
 		}
 		
-		Platform.runLater( () -> {
+		if (isPullingArticles)
+			Platform.runLater( () -> {
+				listener.addFeed(feed);
+			} );
+		else
 			listener.addFeed(feed);
-		} );
 	}
 }
