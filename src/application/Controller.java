@@ -97,7 +97,6 @@ public class Controller implements FeedListener {
 		
 		feedURL = userInput.getText();
 		userInput.clear();
-		pane.getSelectionModel().getSelectedItem().setText("Current RSS: " + userInput);
 		addUsingString(feedURL);
 	}
 	
@@ -125,6 +124,7 @@ public class Controller implements FeedListener {
 	public void addUsingString(String userFeed) {		
 		try {
 			manager.addFeed(userFeed);
+			pane.getSelectionModel().getSelectedItem().setText("Current RSS: " + userFeed);
 		} catch (XMLStreamException | IOException | SQLException e) {
 			e.printStackTrace();
 		}

@@ -6,99 +6,103 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-            <Menu mnemonicParsing="false" text="Some Popular Feeds">
-              <items>
-                  <MenuItem mnemonicParsing="false" onAction="#getESPN" text="ESPN" />
-                  <MenuItem mnemonicParsing="false" onAction="#getHendrix" text="Hendrix" />
-                  <MenuItem mnemonicParsing="false" onAction="#getGizmodo" text="Gizmodo" />
-                <MenuItem mnemonicParsing="false" onAction="#getNPR" text="NPR" />
-                  <MenuItem mnemonicParsing="false" onAction="#getRollingStone" text="Rolling Stone" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Popout Article">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#expandArticle" text="Open Selected Article Text in New Window" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Hide Columns">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#hideTitle" text="Hide Article Title" />
-                  <MenuItem mnemonicParsing="false" onAction="#hideAuthor" text="Hide Article Author" />
-                  <MenuItem mnemonicParsing="false" onAction="#hideDate" text="Hide Article Date" />
-                  <MenuItem mnemonicParsing="false" onAction="#hideArticle" text="Hide Article Text" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Show Columns">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#showTitle" text="Show Article Title" />
-                  <MenuItem mnemonicParsing="false" onAction="#showAuthor" text="Show Article Author" />
-                  <MenuItem mnemonicParsing="false" onAction="#showDate" text="Show Article Date" />
-                  <MenuItem mnemonicParsing="false" onAction="#showArticle" text="Show Article Text" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Add Tab">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#addTab" text="Add New Tab" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Remove Tab">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#removeTab" text="Delete Selected Tab" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Clear Table">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#clear" text="Remove All Data from Table" />
-              </items>
-            </Menu>
-          <Menu mnemonicParsing="false" onAction="#testRefresh" text="Refresh Feed">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Refresh RSS Feed Manually" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Quit">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#endApplication" text="Exit Application" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
    <center>
       <TabPane fx:id="pane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Untitled Tab 1">
                <content>
                   <BorderPane fx:id="object" prefHeight="200.0" prefWidth="200.0">
-                     <top>
+                     <bottom>
+                        <BorderPane prefHeight="725.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+                           <bottom>
+                              <HBox prefHeight="25.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#previousArticle" prefWidth="400.0" text="Previous Article" />
+                                    <Button mnemonicParsing="false" onAction="#nextArticle" prefWidth="400.0" text="Next Article" />
+                                 </children>
+                              </HBox>
+                           </bottom>
+                           <center>
+                              <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00FF00;" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn fx:id="title" prefWidth="200.0" sortable="false" text="Title:" />
+                                  <TableColumn fx:id="author" prefWidth="150.0" sortable="false" text="Author:" />
+                                    <TableColumn fx:id="date" prefWidth="100.0" sortable="false" text="Date:" />
+                                    <TableColumn fx:id="article" prefWidth="350.0" sortable="false" text="Text:" />
+                                </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </bottom>
+                     <center>
                         <HBox prefHeight="15.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                            <children>
                               <TextField fx:id="userInput" prefHeight="15.0" prefWidth="700.0" promptText="Place RSS Feed URL Here" />
                               <Button mnemonicParsing="false" onAction="#add" prefHeight="15.0" prefWidth="100.0" text="Retreive Feed" />
                            </children>
                         </HBox>
-                     </top>
-                     <center>
-                        <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00FF00;" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="title" prefWidth="200.0" sortable="false" text="Title:" />
-                            <TableColumn fx:id="author" prefWidth="150.0" sortable="false" text="Author:" />
-                              <TableColumn fx:id="date" prefWidth="100.0" sortable="false" text="Date:" />
-                              <TableColumn fx:id="article" prefWidth="350.0" sortable="false" text="Text:" />
-                          </columns>
-                        </TableView>
                      </center>
-                     <bottom>
-                        <HBox prefHeight="25.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#previousArticle" prefWidth="400.0" text="Previous Article" />
-                              <Button mnemonicParsing="false" onAction="#nextArticle" prefWidth="400.0" text="Next Article" />
-                           </children>
-                        </HBox>
-                     </bottom>
+                     <top>
+                        <MenuBar BorderPane.alignment="CENTER">
+                          <menus>
+                              <Menu mnemonicParsing="false" text="Some Popular Feeds">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#getESPN" text="ESPN" />
+                                    <MenuItem mnemonicParsing="false" onAction="#getHendrix" text="Hendrix" />
+                                    <MenuItem mnemonicParsing="false" onAction="#getGizmodo" text="Gizmodo" />
+                                  <MenuItem mnemonicParsing="false" onAction="#getNPR" text="NPR" />
+                                    <MenuItem mnemonicParsing="false" onAction="#getRollingStone" text="Rolling Stone" />
+                                </items>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Popout Article">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#expandArticle" text="Open Selected Article Text in New Window" />
+                                </items>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Hide Columns">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#hideTitle" text="Hide Article Title" />
+                                    <MenuItem mnemonicParsing="false" onAction="#hideAuthor" text="Hide Article Author" />
+                                    <MenuItem mnemonicParsing="false" onAction="#hideDate" text="Hide Article Date" />
+                                    <MenuItem mnemonicParsing="false" onAction="#hideArticle" text="Hide Article Text" />
+                                 </items>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Show Columns">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#showTitle" text="Show Article Title" />
+                                    <MenuItem mnemonicParsing="false" onAction="#showAuthor" text="Show Article Author" />
+                                    <MenuItem mnemonicParsing="false" onAction="#showDate" text="Show Article Date" />
+                                    <MenuItem mnemonicParsing="false" onAction="#showArticle" text="Show Article Text" />
+                                </items>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Add Tab">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#addTab" text="Add New Tab" />
+                                </items>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Remove Tab">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#removeTab" text="Delete Selected Tab" />
+                                </items>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Clear Table">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#clear" text="Remove All Data from Table" />
+                                </items>
+                              </Menu>
+                            <Menu mnemonicParsing="false" onAction="#testRefresh" text="Refresh Feed">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="Refresh RSS Feed Manually" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Quit">
+                              <items>
+                                <MenuItem mnemonicParsing="false" onAction="#endApplication" text="Exit Application" />
+                              </items>
+                            </Menu>
+                          </menus>
+                        </MenuBar>
+                     </top>
                   </BorderPane>
                </content>
           </Tab>
