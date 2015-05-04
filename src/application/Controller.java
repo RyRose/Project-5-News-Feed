@@ -135,13 +135,6 @@ public class Controller implements FeedListener {
 		} catch (XMLStreamException | IOException | SQLException e) {e.printStackTrace();}
 	}
 	
-	//Clears table. Used every time a user makes a request.
-	@FXML
-	private void clear() {
-		articles.clear();
-		table.setVisible(true);
-	}
-	
 	@FXML
 	private void nextArticle() {
 		if (table.getSelectionModel().getSelectedIndex() + 1 < articles.size()) {
@@ -175,7 +168,8 @@ public class Controller implements FeedListener {
 	@FXML private void getRollingStone() {addUsingString("http://www.rollingstone.com/news.rss");}
 	@FXML public void endApplication(){Platform.exit();}
 	@FXML private BorderPane getBorderPane() {return object;}
-	@FXML private void clearDatabase() {}
+	@FXML private void clearDatabase() { clear(); manager.resetDatabase();}
+	@FXML private void clear() {articles.clear(); table.setVisible(true);}
 	
 	@FXML
 	private void expandArticle() {
