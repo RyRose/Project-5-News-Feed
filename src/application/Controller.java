@@ -64,10 +64,9 @@ public class Controller implements FeedListener {
 		sysTray = SystemTrayListener.getInstance();
 		pane.getSelectionModel().getSelectedItem().setText("Tab: " + tabCount);
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles.\nPlease take note that pulling the article text may take a few."));
-		
 		//This is based off of the Article interface. If that is changed, please adjust this.
-		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles."));
-			
+		table.setPlaceholder(new Label("Please enter a complete URL before pressing the button or enter key.\n"
+					+ "Make sure to include http:// or https:// in your URL."));
 		//Not sure if these declarations are correct. If not, I'll work on it when I find the fix.
 		title.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("title"));
 		date.setCellValueFactory(new PropertyValueFactory<ArticleView, Text>("date"));
@@ -176,6 +175,7 @@ public class Controller implements FeedListener {
 	@FXML private void getRollingStone() {addUsingString("http://www.rollingstone.com/news.rss");}
 	@FXML public void endApplication(){Platform.exit();}
 	@FXML private BorderPane getBorderPane() {return object;}
+	@FXML private void clearDatabase() {}
 	
 	@FXML
 	private void expandArticle() {

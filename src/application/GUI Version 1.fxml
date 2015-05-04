@@ -38,7 +38,7 @@
                         <HBox prefHeight="15.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                            <children>
                               <TextField fx:id="userInput" prefHeight="15.0" prefWidth="700.0" promptText="Place RSS Feed URL Here" />
-                              <Button mnemonicParsing="false" onAction="#add" prefHeight="15.0" prefWidth="100.0" text="Retreieve" />
+                              <Button mnemonicParsing="false" onAction="#add" prefHeight="15.0" prefWidth="100.0" text="Retrieve" />
                            </children>
                         </HBox>
                      </center>
@@ -85,6 +85,11 @@
                                 <MenuItem mnemonicParsing="false" text="Refresh RSS Feed Manually" />
                               </items>
                             </Menu>
+                              <Menu mnemonicParsing="false" text="Clear Database">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#clearDatabase" text="Remove All Feeds from Database" />
+                                </items>
+                              </Menu>
                             <Menu mnemonicParsing="false" text="Quit">
                               <items>
                                 <MenuItem mnemonicParsing="false" onAction="#endApplication" text="Exit Application" />
