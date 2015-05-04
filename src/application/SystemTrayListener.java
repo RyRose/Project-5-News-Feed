@@ -2,7 +2,6 @@ package application;
 
 import java.awt.AWTException;
 import java.awt.Image;
-import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
@@ -10,17 +9,22 @@ import java.awt.TrayIcon;
 
 public class SystemTrayListener {
 	
+	private static SystemTrayListener listener = new SystemTrayListener();
+	
+	public static SystemTrayListener getInstance() {
+		return listener;
+	}
+	
 	private boolean isSupported;
 	private String dummyString = "                                                                                ";
 	
 	private PopupMenu popUp;
 	private TrayIcon icon;
 	
-	public SystemTrayListener() {
+	private SystemTrayListener() {
 		isSupported = SystemTray.isSupported();
 		
 		if (isSupported) {
-			System.out.println("System tray is supported!");
 			SystemTray tray = SystemTray.getSystemTray();
 			
 			
