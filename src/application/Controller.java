@@ -53,14 +53,14 @@ public class Controller implements FeedListener {
 	private String feedURL;
 	private FeedManager manager;
 	private SystemTrayListener sysTray;	
-	public int index;
+	private int index;
 	private int tabCount = 1;
 		
 	@FXML
 	public void initialize() {
-		index = SystemTrayListener.index++;
 		articles = FXCollections.observableArrayList();
 		manager = new FeedManager(this);
+		index = TabIndex.getInstance().nextIndex();
 		sysTray = SystemTrayListener.getInstance();
 		pane.getSelectionModel().getSelectedItem().setText("Tab: " + tabCount);
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles.\nPlease take note that pulling the article text may take a few."));

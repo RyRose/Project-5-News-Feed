@@ -10,15 +10,12 @@ import java.awt.TrayIcon;
 public class SystemTrayListener {
 	
 	private static SystemTrayListener listener = new SystemTrayListener();
-	
-	public static int index = 0;
-	
+		
 	public static SystemTrayListener getInstance() {
 		return listener;
 	}
 	
 	private boolean isSupported;
-	private String dummyString = "                                                                                ";
 	
 	private PopupMenu popUp;
 	private TrayIcon icon;
@@ -45,7 +42,7 @@ public class SystemTrayListener {
 	
 	public void displayRefresh( String feed_title ) {
 		if (isSupported) {
-			icon.displayMessage("New data received!", feed_title + " has been refreshed!" + dummyString, TrayIcon.MessageType.INFO);
+			icon.displayMessage("New data received!", feed_title + " has been refreshed!", TrayIcon.MessageType.INFO);
 		}
 	}
 }
