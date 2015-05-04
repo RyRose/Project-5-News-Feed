@@ -142,8 +142,7 @@ public class Controller implements FeedListener {
 	private void nextArticle() {
 		if (table.getSelectionModel().getSelectedIndex() + 1 < articles.size()) {
 			table.getSelectionModel().select(table.getSelectionModel().getSelectedIndex() + 1);
-			table.getSelectionModel().focus(table.getSelectionModel().getSelectedIndex() + 1);
-			table.scrollTo(table.getSelectionModel().getSelectedIndex() + 1);
+			table.scrollTo(table.getSelectionModel().getSelectedIndex());
 		}
 	}
 	
@@ -151,8 +150,7 @@ public class Controller implements FeedListener {
 	private void previousArticle() {
 		if (table.getSelectionModel().getSelectedIndex() - 1 >= 0) {
 			table.getSelectionModel().select(table.getSelectionModel().getSelectedIndex() - 1);
-			table.getSelectionModel().focus(table.getSelectionModel().getSelectedIndex() - 1);
-			table.scrollTo(table.getSelectionModel().getSelectedIndex() - 1);
+			table.scrollTo(table.getSelectionModel().getSelectedIndex());
 		}
 	}
 	
