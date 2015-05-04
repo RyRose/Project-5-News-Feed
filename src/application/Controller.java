@@ -97,6 +97,7 @@ public class Controller implements FeedListener {
 		
 		feedURL = userInput.getText();
 		userInput.clear();
+		pane.getSelectionModel().getSelectedItem().setText("Current RSS: " + userInput);
 		addUsingString(feedURL);
 	}
 	
