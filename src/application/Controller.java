@@ -53,10 +53,10 @@ public class Controller implements FeedListener {
 	private ObservableList<ArticleView> articles;
 	private String feedURL;
 	private FeedManager manager;
-	private SystemTrayListener sysTray;
-	
+	private SystemTrayListener sysTray;	
 	public int index;
-	
+	private int tabCount = 1;
+		
 	@FXML
 	public void initialize() {
 		index = SystemTrayListener.index++;
@@ -64,6 +64,7 @@ public class Controller implements FeedListener {
 		articles = FXCollections.observableArrayList();
 		manager = new FeedManager(this);
 		sysTray = SystemTrayListener.getInstance();
+		pane.getSelectionModel().getSelectedItem().setText("Tab: " + tabCount);
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles.\nPlease take note that pulling the article text may take a few."));
 		
 		//This is based off of the Article interface. If that is changed, please adjust this.
@@ -161,8 +162,7 @@ public class Controller implements FeedListener {
 	private void nextArticle() {
 		if (table.getSelectionModel().getSelectedIndex() + 1 < articles.size()) {
 			table.getSelectionModel().select(table.getSelectionModel().getSelectedIndex() + 1);
-			table.getSelectionModel().focus(table.getSelectionModel().getSelectedIndex() + 1);
-			table.scrollTo(table.getSelectionModel().getSelectedIndex() + 1);
+			table.scrollTo(table.getSelectionModel().getSelectedIndex());
 		}
 	}
 	
@@ -170,8 +170,7 @@ public class Controller implements FeedListener {
 	private void previousArticle() {
 		if (table.getSelectionModel().getSelectedIndex() - 1 >= 0) {
 			table.getSelectionModel().select(table.getSelectionModel().getSelectedIndex() - 1);
-			table.getSelectionModel().focus(table.getSelectionModel().getSelectedIndex() - 1);
-			table.scrollTo(table.getSelectionModel().getSelectedIndex() - 1);
+			table.scrollTo(table.getSelectionModel().getSelectedIndex());
 		}
 	}
 	
@@ -250,7 +249,10 @@ public class Controller implements FeedListener {
 			//CURRENT ISSUE: You can only add a new tab if the very first one is selected. Not sure a way around this.
 			Tab newTab = new Tab();
 			newTab.setContent(newPane);
+			tabCount += 1;
+			newTab.setText("Tab: " + tabCount);
 			pane.getTabs().add(newTab);
+			pane.getSelectionModel().select(newTab);
 		} catch (IOException e) {
 		 	e.printStackTrace();
 		}
