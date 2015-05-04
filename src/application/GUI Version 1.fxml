@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="825.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <center>
       <TabPane fx:id="pane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -75,16 +75,6 @@
                                     <MenuItem mnemonicParsing="false" onAction="#showArticle" text="Show Article Text" />
                                 </items>
                               </Menu>
-                              <Menu mnemonicParsing="false" text="Add Tab">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#addTab" text="Add New Tab" />
-                                </items>
-                              </Menu>
-                              <Menu mnemonicParsing="false" text="Remove Tab">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#removeTab" text="Delete Selected Tab" />
-                                </items>
-                              </Menu>
                               <Menu mnemonicParsing="false" text="Clear Table">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#clear" text="Remove All Data from Table" />
@@ -109,4 +99,20 @@
         </tabs>
       </TabPane>
    </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="Add Tab">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#addTab" text="Add a New Tab to TabPane" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Remove Tab">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#removeTab" text="Remove Current Tab" />
+              </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
 </BorderPane>

@@ -15,7 +15,7 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("GUI Version 1.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root,800,800);
+			Scene scene = new Scene(root,800,825);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			//Setting window title
