@@ -66,4 +66,13 @@ public class FeedManager {
 	void pullFeedFromWeb(String rss_link){
 		new RssThread(rss_link, listener).start();
 	}
+	
+	public void resetDatabase() {
+		try {
+			database.deleteTables();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		database.createTables();
+	}
 }

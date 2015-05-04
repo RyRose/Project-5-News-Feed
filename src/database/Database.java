@@ -24,9 +24,9 @@ public class Database {
 	
 	public void createTables() {
 		try {
-			sql = con.prepareStatement("CREATE TABLE FeedLinkTable (RSSLink TEXT, FeedName TEXT)");
+			sql = con.prepareStatement("CREATE TABLE IF NOT EXISTS FeedLinkTable (RSSLink TEXT, FeedName TEXT)");
 			sql.execute();
-			sql = con.prepareStatement("CREATE TABLE ArticleTable (RSSLink TEXT, Author TEXT, Date TEXT, Title TEXT, Contents TEXT, Description TEXT)");
+			sql = con.prepareStatement("CREATE TABLE IF NOT EXISTS ArticleTable (RSSLink TEXT, Author TEXT, Date TEXT, Title TEXT, Contents TEXT, Description TEXT)");
 			sql.execute();
 			sql.close();
 		}
@@ -36,9 +36,9 @@ public class Database {
 	}
 	
 	public void deleteTables() throws SQLException {
-		sql = con.prepareStatement("DROP TABLE FeedLinkTable");
+		sql = con.prepareStatement("DROP TABLE IF EXISTS FeedLinkTable");
 		sql.execute();
-		sql = con.prepareStatement("DROP TABLE ArticleTable");
+		sql = con.prepareStatement("DROP TABLE IF EXISTS ArticleTable");
 		sql.execute();
 		sql.close();
 	}
