@@ -117,6 +117,11 @@
                 <MenuItem mnemonicParsing="false" onAction="#removeTab" text="Remove Current Tab" />
               </items>
             </Menu>
+          <Menu mnemonicParsing="false" text="Quit">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#endApplication" text="Exit Application" />
+            </items>
+          </Menu>
          </menus>
       </MenuBar>
    </top>
