@@ -96,6 +96,7 @@ public class Controller implements FeedListener {
 		
 		feedURL = userInput.getText();
 		userInput.clear();
+		pane.getSelectionModel().getSelectedItem().setText("Current RSS: " + userInput);
 		addUsingString(feedURL);
 	}
 	
@@ -124,18 +125,10 @@ public class Controller implements FeedListener {
 	public void addUsingString(String userFeed) {		
 		try {
 			manager.addFeed(userFeed);
+			feedURL = userFeed;
 		} catch (XMLStreamException | IOException | SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	//Test method using Hendrix news feed at https://www.hendrix.edu/news/RssFeed.ashx?fol=235.
-	@FXML
-	private void testRSSAdding() {
-		System.out.println("Trying hendrix feed");
-		String hendrixFeed = "https://www.hendrix.edu/news/RssFeed.ashx?fol=235";
-		feedURL = hendrixFeed;
-		addUsingString(hendrixFeed);
 	}
 	
 	@FXML
@@ -252,6 +245,31 @@ public class Controller implements FeedListener {
 	@FXML
 	public void removeTab() {
 		pane.getTabs().remove(pane.getSelectionModel().getSelectedItem());
+	}
+	
+	@FXML
+	private void getNPR() {
+		addUsingString("http://www.npr.org/rss/rss.php?id=1001");
+	}
+	
+	@FXML
+	private void getHendrix() {
+		addUsingString("https://www.hendrix.edu/news/RssFeed.ashx?fol=235");
+	}
+	
+	@FXML
+	private void getESPN() {
+		addUsingString("http://sports.espn.go.com/espn/rss/news");
+	}
+	
+	@FXML
+	private void getGizmodo() {
+		addUsingString("http://feeds.gawker.com/gizmodo/full#_ga=1.116383045.299019652.1421158651");
+	}
+	
+	@FXML
+	private void getRollingStone() {
+		addUsingString("http://www.rollingstone.com/news.rss");
 	}
 
 

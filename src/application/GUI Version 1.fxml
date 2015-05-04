@@ -9,6 +9,15 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
+            <Menu mnemonicParsing="false" text="Some Popular Feeds">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#getESPN" text="ESPN" />
+                  <MenuItem mnemonicParsing="false" onAction="#getHendrix" text="Hendrix" />
+                  <MenuItem mnemonicParsing="false" onAction="#getGizmodo" text="Gizmodo" />
+                <MenuItem mnemonicParsing="false" onAction="#getNPR" text="NPR" />
+                  <MenuItem mnemonicParsing="false" onAction="#getRollingStone" text="Rolling Stone" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Popout Article">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#expandArticle" text="Open Selected Article Text in New Window" />
@@ -50,11 +59,6 @@
               <MenuItem mnemonicParsing="false" text="Refresh RSS Feed Manually" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Test Table">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#testRSSAdding" text="Test Using Hendrix News Feed" />
-              </items>
-            </Menu>
           <Menu mnemonicParsing="false" text="Quit">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#endApplication" text="Exit Application" />
