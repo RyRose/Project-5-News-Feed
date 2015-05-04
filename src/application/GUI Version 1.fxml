@@ -45,7 +45,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#clear" text="Remove All Data from Table" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Refresh Feed">
+          <Menu mnemonicParsing="false" onAction="#testRefresh" text="Refresh Feed">
             <items>
               <MenuItem mnemonicParsing="false" text="Refresh RSS Feed Manually" />
             </items>

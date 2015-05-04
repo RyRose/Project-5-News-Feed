@@ -60,11 +60,13 @@ public class Controller implements FeedListener {
 	private ObservableList<ArticleView> articles;
 	private String feedURL;
 	private FeedManager manager;
+	private SystemTrayListener sysTray;
 	
 	@FXML
 	public void initialize() {
 		articles = FXCollections.observableArrayList();
 		manager = new FeedManager(this);
+		sysTray = new SystemTrayListener();
 		table.setPlaceholder(new Label("Enter the RSS feed of your choosing above in order to view the related articles.\nPlease take note that pulling the article text may take a few."));
 		
 		//This is based off of the Article interface. If that is changed, please adjust this.
@@ -102,6 +104,7 @@ public class Controller implements FeedListener {
 	public void addFeed( Feed feed ) {
 		try {
 			manager.addFeed(feed);
+			sysTray.displayRefresh(feed.getTitle());
 			showFeed( manager.getFeed( feed.getRssLink() ) );
 		} catch (SQLException | XMLStreamException | IOException e) {
 			e.printStackTrace();
@@ -110,6 +113,7 @@ public class Controller implements FeedListener {
 	
 	@Override
 	public void showFeed( Feed feed ) {
+		System.out.println("Showing Feed");
 		clear();
 		for (Article art : feed.getArticles()) {
 			articles.add( new ArticleView(art) );
@@ -132,6 +136,11 @@ public class Controller implements FeedListener {
 		System.out.println("Trying hendrix feed");
 		String hendrixFeed = "https://www.hendrix.edu/news/RssFeed.ashx?fol=235";
 		addUsingString(hendrixFeed);
+	}
+	
+	@FXML
+	private void testRefresh() {
+		manager.refreshFeeds("https://www.hendrix.edu/news/RssFeed.ashx?fol=235");
 	}
 	
 	//Clears table. Used every time a user makes a request.

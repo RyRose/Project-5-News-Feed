@@ -31,23 +31,16 @@ public class FeedManager {
 	
 	public void addFeed(String rss_link) throws XMLStreamException, IOException, SQLException {
 		if (database.isFeedInDB(rss_link)) {
-			listener.addFeed( getFeed(rss_link) );
-			return;
-		}
-		
-		else
+			listener.showFeed( getFeed(rss_link) );
+		} else
 			pullFeedFromWeb(rss_link);
 	}
 	
 	public void addFeed(Feed feed) throws SQLException {
-		System.out.println("in addFeed()");
 		if (database.isFeedInDB(feed.getRssLink())) {
 			database.removeArticles(feed.getRssLink());
-			System.out.println("Removed all articles from feed " + feed.getRssLink());
-		} else { // We are adding for the first time.
-			System.out.println("adding feed for first time");
+		} else  // We are adding for the first time.
 			database.addFeed(feed.getRssLink(), feed.getTitle());
-		}
 		
 		for (Article art: feed.getArticles()){
 			database.addArticle(feed.getRssLink(), art.getAuthor(), art.getDate(), art.getTitle(), art.getText(), art.getDescription());
@@ -55,6 +48,7 @@ public class FeedManager {
 	}
 	
 	public Feed getFeed(String rss_link) throws XMLStreamException, IOException, SQLException {
+		System.out.println("getFeed()");
 		if (!database.isFeedInDB(rss_link))
 			throw new IllegalStateException("Feed does not exist. Add it first.");
 		
@@ -70,6 +64,6 @@ public class FeedManager {
 	}
 	
 	void pullFeedFromWeb(String rss_link){
-		new RssThread(rss_link, listener).run();
+		new RssThread(rss_link, listener).start();
 	}
 }

@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import javafx.application.Platform;
 
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
@@ -135,6 +136,8 @@ public class RssThread extends Thread {
 			numArticlesLeft--;
 		}
 		
-		listener.addFeed(feed);
+		Platform.runLater( () -> {
+			listener.addFeed(feed);
+		} );
 	}
 }
