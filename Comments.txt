@@ -1,0 +1,25 @@
+Additional tabs don't update the tab name
+
+Need a status bar to show when the program is loading information or when something has gone wrong.
+
+Can't load the link http://www.vice.com/tag/RSS.
+
+What's up with dummyString in SystemTrayListener?
+
+can't read multiple articles at the same time(the popout wondows is disabling the main windows)
+
+The text size is permanently small
+
+Some articles have no body at all, it might be useful to filter them out 
+
+extra column, so if all columns except one are minimized, it should stretch to fill the screen
+	-columns aren't scaled
+
+popout article - crashes....
+
+We like the notification at the bottom when a feed is refreshed/new article appears
+
+Lots of comments in article.java - fix with good variable/method names!
+	-same with feed
+
+readlink in rssThread - should use .equals not ==
