@@ -90,10 +90,6 @@ public class Controller implements FeedListener {
 		try {
 			if (manager.getStoredFeeds().size() > index) {
 				initializeExistingInformation(manager.getStoredFeeds().get(index));
-				
-				if (manager.getStoredFeeds().size() > index + 1) {	
-					addExistingTab(manager.getStoredFeeds().get(index + 1), index + 1);
-				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -239,24 +235,6 @@ public class Controller implements FeedListener {
 	@FXML
 	private BorderPane getBorderPane() {
 		return object;
-	}
-	
-	public void addExistingTab( Feed feed, int idx ) {
-		FXMLLoader loader = new FXMLLoader();
-		try {
-			//Had to create a new root object and then rip out the BorderPane from it.
-			loader.load(this.getClass().getResource("GUI Version 1.fxml").openStream());
-			Controller temp = loader.getController();
-			BorderPane newPane = temp.getBorderPane();
-		
-			//Create a new tab and give it the ripped BorderPane as its content.
-			//CURRENT ISSUE: You can only add a new tab if the very first one is selected. Not sure a way around this.
-			Tab newTab = new Tab();
-			newTab.setContent(newPane);
-			pane.getTabs().add(newTab);
-		} catch (IOException e) {
-		 	e.printStackTrace();
-		}
 	}
 	
 	@FXML
