@@ -80,19 +80,14 @@
                                   <MenuItem mnemonicParsing="false" onAction="#clear" text="Remove All Data from Table" />
                                 </items>
                               </Menu>
-                            <Menu mnemonicParsing="false" onAction="#testRefresh" text="Refresh Feed">
-                              <items>
-                                <MenuItem mnemonicParsing="false" text="Refresh RSS Feed Manually" />
-                              </items>
-                            </Menu>
                               <Menu mnemonicParsing="false" text="Clear Database">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#clearDatabase" text="Remove All Feeds from Database" />
                                 </items>
                               </Menu>
-                            <Menu mnemonicParsing="false" text="Quit">
+                            <Menu mnemonicParsing="false" onAction="#testRefresh" text="Refresh Feed">
                               <items>
-                                <MenuItem mnemonicParsing="false" onAction="#endApplication" text="Exit Application" />
+                                <MenuItem mnemonicParsing="false" text="Refresh RSS Feed Manually" />
                               </items>
                             </Menu>
                           </menus>
