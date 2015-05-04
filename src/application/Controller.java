@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.event.ChangeEvent;
 import javax.xml.stream.XMLStreamException;
 
 import interfaces.Article;
@@ -230,6 +231,7 @@ public class Controller implements FeedListener {
 			Tab newTab = new Tab();
 			newTab.setContent(newPane);
 			pane.getTabs().add(newTab);
+			pane.getSelectionModel().select(newTab);
 		} catch (IOException e) {
 		 	e.printStackTrace();
 		}
